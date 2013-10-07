@@ -5,7 +5,6 @@ import pacman.controllers.Controller;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
-
 /*
  * This is the class you need to modify for your entry. In particular, you need to
  * fill in the getActions() method. Any additional classes you write should either
