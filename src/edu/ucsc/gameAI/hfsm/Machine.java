@@ -12,6 +12,7 @@ public class Machine implements IHFSMBase, IMachine {
 	protected ArrayList<IHState> states; 
 	protected IHState initial, current;
 	
+	//Gets the current state stack.
 	public Collection<IHState> getStates(){
 		if (current != null){
 			return current.getStates();
@@ -19,18 +20,24 @@ public class Machine implements IHFSMBase, IMachine {
 		return new ArrayList<IHState>();
 	}
 	
+	//Returns an empty list, as per the HSMBase example in the book.
 	@Override
 	public Collection<IAction> getAction() {
 		return new ArrayList<IAction>();
 	}
 
+	//Recursively updates the machine
 	@Override
 	public Result update() {
 		Result result = new Result();
+		//If we're starting from scratch, enter the initial state.
 		if (current == null){
 			current = initial;
+			/*We don't have multiple return types, so load the initial
+			/*  state's actions into the result and do nothing else.  */
 			result.addAction(current.getEntryAction());
 		} else {
+			//Try to find a transition in the current state.
 			IHTransition triggered = null;
 			for (IHTransition trans: current.getHTransitions()){
 				if (trans.isTriggered()){
@@ -38,21 +45,25 @@ public class Machine implements IHFSMBase, IMachine {
 					break;
 				}
 			}
-			
+			//If we've found one, load it into the result struct.
 			if (triggered != null){
 				result.trans = triggered;
 				result.level = triggered.getLevel();
 			} else {
+				//Otherwise recurse down for a result.
 				result = current.update();
 			}
-			
+			//Check if the result contains a transition.
 			if (result.trans != null){
+				//Act based on its level
+				//Note: this is not the same order as in the book.
 				if (result.level > 0){
 					//Transition destined for higher level.
 					result.addAction(current.getExitAction());
 					current = null;
 					result.level -= 1;
 				} else {
+					//Both same- and lower-level transitions share some code.
 					IHState target = result.trans.getTargetHState();
 					if (result.level == 0){
 						//Transition is on the same level.
@@ -77,6 +88,19 @@ public class Machine implements IHFSMBase, IMachine {
 
 	@Override
 	public Collection<IAction> updateDown(IHState state, int level){
-		return null;
+		ArrayList<IAction> actions = new ArrayList<IAction>();
+		//If we're at the top level, continue recursing
+		/*
+		if (level > 0){
+			actions = parent.updateDown(this, level-1);
+		}
+		*/
+		//If we're in a state, exit it.
+		if (current != null){
+			actions.add(current.getExitAction());
+		}
+		current = state;
+		actions.add(state.getEntryAction());
+		return actions;
 	}
 }
