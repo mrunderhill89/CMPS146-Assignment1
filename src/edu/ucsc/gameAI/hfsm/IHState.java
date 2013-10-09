@@ -6,4 +6,7 @@ import edu.ucsc.gameAI.fsm.IState;
 
 public interface IHState extends IState {
 	Collection<IHState> getStates();
+	Collection<IHTransition> getHTransitions();
+	Result update();
+	ISubMachineState getParent();
 }

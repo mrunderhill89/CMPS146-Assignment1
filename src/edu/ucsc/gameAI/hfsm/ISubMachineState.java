@@ -1,5 +1,8 @@
 package edu.ucsc.gameAI.hfsm;
 
-public interface ISubMachineState extends IHState, IHTransition {
+import edu.ucsc.gameAI.IAction;
+
+public interface ISubMachineState extends IHState, IMachine {
+
 
 }

@@ -7,5 +7,5 @@ public interface IHFSMBase {
 
 	Collection<IAction> getAction();
 	
-	IResult update();
+	Result update();
 }

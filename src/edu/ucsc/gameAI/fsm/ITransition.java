@@ -2,6 +2,7 @@ package edu.ucsc.gameAI.fsm;
 
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
+import edu.ucsc.gameAI.hfsm.IHState;
 
 /**
  * The interface for transitions in finite state machines.
@@ -15,7 +16,8 @@ public interface ITransition {
 	 * @return The state this transition leads to.
 	 */
 	IState getTargetState();
-	
+	IHState getTargetHState();
+
 	/**
 	 * Generates the action associated with taking this transition.
 	 * @return The action associated with taking this transition.
@@ -33,4 +35,5 @@ public interface ITransition {
 	 * @return True if triggered, false if not.
 	 */
 	public boolean isTriggered();
+
 }
