@@ -10,13 +10,13 @@ import pacman.game.Game;
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class GhostEatMultiplier implements ICondition {
 
 	Game game;
-	int index;
+	int min;
+	int max;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public GhostEatMultiplier(Game _game, int _min, int _max) {
 		
 	}
 	

@@ -3,23 +3,23 @@
  */
 package edu.ucsc.gameAI.conditions;
 
-import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
+import edu.ucsc.gameAI.ICondition;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class CurrentLevel implements ICondition {
 
 	Game game;
-	int index;
+	int min;
+	int max;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public CurrentLevel(Game _game, int _min, int _max) {
 		
 	}
-	
+
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

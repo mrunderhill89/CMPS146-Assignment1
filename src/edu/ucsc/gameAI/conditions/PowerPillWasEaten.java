@@ -10,16 +10,14 @@ import pacman.game.Game;
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class PowerPillWasEaten implements ICondition {
 
 	Game game;
-	int index;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public PowerPillWasEaten(Game _game) {
 		
 	}
-	
+
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

@@ -3,23 +3,21 @@
  */
 package edu.ucsc.gameAI.conditions;
 
-import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
+import edu.ucsc.gameAI.ICondition;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class HasRecievedExtraLife implements ICondition {
 
 	Game game;
-	int index;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public HasRecievedExtraLife(Game _game) {
 		
 	}
-	
+
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

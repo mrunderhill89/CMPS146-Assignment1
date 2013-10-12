@@ -10,16 +10,16 @@ import pacman.game.Game;
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class TotalTime implements ICondition {
 
 	Game game;
-	int index;
+	int min;
+	int max;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public TotalTime(Game _game, int _min, int _max) {
 		
 	}
-	
+
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

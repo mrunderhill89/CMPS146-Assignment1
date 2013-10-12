@@ -3,20 +3,16 @@
  */
 package edu.ucsc.gameAI.conditions;
 
-import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
+import edu.ucsc.gameAI.ICondition;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class PowerPillInRegion implements ICondition {
 
-	Game game;
-	int index;
-	
-	public MazeIndex(Game _game, int _index)
-	{
+	public PowerPillInRegion(Game _game, int x1, int y1, int x2, int y2) {
 		
 	}
 	

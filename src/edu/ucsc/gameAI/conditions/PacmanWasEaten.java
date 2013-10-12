@@ -10,13 +10,11 @@ import pacman.game.Game;
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class PacmanWasEaten implements ICondition {
 
 	Game game;
-	int index;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public PacmanWasEaten(Game _game) {
 		
 	}
 	

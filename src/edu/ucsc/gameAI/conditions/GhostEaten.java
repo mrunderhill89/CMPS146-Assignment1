@@ -4,22 +4,22 @@
 package edu.ucsc.gameAI.conditions;
 
 import edu.ucsc.gameAI.ICondition;
+import pacman.game.Constants.GHOST;
 import pacman.game.Game;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class GhostEaten implements ICondition {
 
 	Game game;
-	int index;
+	GHOST ghost;
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public GhostEaten(Game _game, GHOST _ghost) {
 		
 	}
-	
+
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

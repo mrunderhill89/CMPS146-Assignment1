@@ -10,15 +10,15 @@ import pacman.game.Game;
  * @author Ed Ramirez
  *
  */
-public class MazeIndex implements ICondition {
+public class LevelCount implements ICondition {
 
 	Game game;
-	int index;
+	int level;	
 	
-	public MazeIndex(Game _game, int _index)
-	{
+	public LevelCount(Game _game, int _level) {
 		
 	}
+
 	
 	@Override
 	public boolean test() {
