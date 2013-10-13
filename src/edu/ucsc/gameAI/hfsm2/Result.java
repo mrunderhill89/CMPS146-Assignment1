@@ -1,14 +1,13 @@
-package edu.ucsc.gameAI.hfsm;
+package edu.ucsc.gameAI.hfsm2;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.ucsc.gameAI.IAction;
-import edu.ucsc.gameAI.fsm.ITransition;
 
 public class Result {
 	public ArrayList<IAction> actions;
-	public ITransition trans;
+	public HTransition trans;
 	public int level;
 	
 	public Result(){

@@ -7,10 +7,17 @@ import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.fsm.IState;
 import edu.ucsc.gameAI.fsm.ITransition;
 
-public class Machine implements IHFSMBase, IMachine {
+public class Machine implements IHFSMBase, IHMachine {
 
 	protected ArrayList<IHState> states; 
 	protected IHState initial, current;
+	
+	//Base constructor
+	public Machine(){
+		states = new ArrayList<IHState>();
+		initial = null;
+		current = null;
+	}
 	
 	//Gets the current state stack.
 	public Collection<IHState> getStates(){
@@ -22,7 +29,7 @@ public class Machine implements IHFSMBase, IMachine {
 	
 	//Returns an empty list, as per the HSMBase example in the book.
 	@Override
-	public Collection<IAction> getAction() {
+	public Collection<IAction> getActions() {
 		return new ArrayList<IAction>();
 	}
 
@@ -32,10 +39,12 @@ public class Machine implements IHFSMBase, IMachine {
 		Result result = new Result();
 		//If we're starting from scratch, enter the initial state.
 		if (current == null){
-			current = initial;
-			/*We don't have multiple return types, so load the initial
-			/*  state's actions into the result and do nothing else.  */
-			result.addAction(current.getEntryAction());
+			if (initial != null){
+				current = initial;
+				/*We don't have multiple return types, so load the initial
+				/*  state's actions into the result and do nothing else.  */
+				result.addAction(current.getEntryAction());
+			}
 		} else {
 			//Try to find a transition in the current state.
 			IHTransition triggered = null;
@@ -72,10 +81,10 @@ public class Machine implements IHFSMBase, IMachine {
 						result.addAction(target.getEntryAction());
 						
 						current = target;
-						result.addActions(getAction());
+						result.addActions(getActions());
 					} else {
 						//Transition is on lower level.
-						ISubMachineState targetMachine = target.getParent();
+						IHMachine targetMachine = target.getParent();
 						result.addAction(result.trans.getAction());
 						result.addActions(targetMachine.updateDown(target, -result.level));
 					}
@@ -102,5 +111,23 @@ public class Machine implements IHFSMBase, IMachine {
 		current = state;
 		actions.add(state.getEntryAction());
 		return actions;
+	}
+		
+	@Override
+	public String toString(){
+		String out = "Machine:";
+		//Print states
+		out += "\n States:";
+		for (IHState state: states){
+			out += "\n *";
+			if (state == initial){
+				out += "i>";
+			}
+			if (state == current){
+				out += "c>";
+			}
+			out += state.toString();
+		}		
+		return out;
 	}
 }

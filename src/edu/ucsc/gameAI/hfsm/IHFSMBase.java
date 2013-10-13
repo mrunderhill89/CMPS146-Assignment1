@@ -4,8 +4,6 @@ import java.util.Collection;
 import edu.ucsc.gameAI.IAction;
 
 public interface IHFSMBase {
-
-	Collection<IAction> getAction();
-	
+	Collection<IAction> getActions();
 	Result update();
 }

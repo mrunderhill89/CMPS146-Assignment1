@@ -8,5 +8,5 @@ public interface IHState extends IState {
 	Collection<IHState> getStates();
 	Collection<IHTransition> getHTransitions();
 	Result update();
-	ISubMachineState getParent();
+	IHMachine getParent();
 }

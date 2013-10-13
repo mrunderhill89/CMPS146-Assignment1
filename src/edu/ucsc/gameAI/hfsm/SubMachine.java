@@ -6,30 +6,32 @@ import java.util.Collection;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.fsm.ITransition;
 
-public class SubMachine implements IMachine, IHState {
+public class SubMachine implements IHMachine, IHState {
 	IHState state;
-	IMachine machine;
+	IHMachine machine;
+	
+	@Override
+	public Collection<IAction> getActions() {
+		return machine.getActions();
+	}
+	
 	@Override
 	public IAction getAction() {
-		// TODO Auto-generated method stub
 		return state.getAction();
 	}
 
 	@Override
 	public IAction getEntryAction() {
-		// TODO Auto-generated method stub
 		return state.getEntryAction();
 	}
 
 	@Override
 	public IAction getExitAction() {
-		// TODO Auto-generated method stub
 		return state.getExitAction();
 	}
 
 	@Override
 	public Collection<ITransition> getTransitions() {
-		// TODO Auto-generated method stub
 		return state.getTransitions();
 	}
 
@@ -40,13 +42,11 @@ public class SubMachine implements IMachine, IHState {
 
 	@Override
 	public Collection<IHTransition> getHTransitions() {
-		// TODO Auto-generated method stub
 		return state.getHTransitions();
 	}
 
 	@Override
-	public ISubMachineState getParent() {
-		// TODO Auto-generated method stub
+	public IHMachine getParent() {
 		return state.getParent();
 	}
 
