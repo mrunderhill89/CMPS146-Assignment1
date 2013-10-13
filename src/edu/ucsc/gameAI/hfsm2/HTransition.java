@@ -19,7 +19,14 @@ public class HTransition {
 		level = from.getLevel() - to.getLevel();
 		from.transitions.add(this);
 	}
-	
+	public HTransition(HState from, HState to, ICondition c, IAction a){
+		this(from, to, c, a, false);
+	}
+
+	public HTransition(HState from, HState to, ICondition c){
+		this(from, to, c, null);
+	}
+
 	public HState getTarget() {
 		return target;
 	}

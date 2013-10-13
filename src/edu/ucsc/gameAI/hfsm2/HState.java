@@ -7,9 +7,30 @@ import edu.ucsc.gameAI.IAction;
 
 public class HState {
 	//State attributes
+	protected String name;
 	protected IAction onEntry;
+	public void setEntryAction(IAction e){
+		onEntry = e;
+	}
+	public IAction getEntryAction(){
+		return onEntry;
+	}
+	
 	protected IAction onUpdate;
+	public void setUpdateAction(IAction e){
+		onUpdate = e;
+	}
+	public IAction getUpdateAction(){
+		return onUpdate;
+	}
+	
 	protected IAction onExit;
+	public void setExitAction(IAction e){
+		onExit = e;
+	}
+	public IAction getExitAction(){
+		return onExit;
+	}
 	
 	//Machine attributes
 	protected HashMap<String, HState> subStates;
@@ -29,6 +50,7 @@ public class HState {
 		current = null;
 		initial = null;
 		parent = null;
+		name = "root";
 		level = 0;
 	}
 	
@@ -38,12 +60,13 @@ public class HState {
 		//Set parent and level
 		parent = p;
 		level = p.level + 1;
-		//Add this state to the parent's children.
-		p.subStates.put(name, this);
 		//If specified or there are no other states, make this one the initial state. 
 		if (makeInitial || p.subStates.isEmpty()){
 			p.initial = this;
 		}
+		//Add this state to the parent's children.
+		p.subStates.put(name, this);
+		this.name = name;
 	}
 	
 	//Simplification of the above constructor.
@@ -56,18 +79,23 @@ public class HState {
 		return subStates.get(name);
 	}
 	
+	//Generate a new result for updating.
 	public Result update(){
 		Result result = new Result();
+		return update(result);
+	}
+	
+	public Result update(Result result){
 		//If we're starting from scratch, enter the initial state.
 		if (current == null){
-			if (initial != null){
+			if (subStates.isEmpty()){
+				//This is a leaf state and has no children, so just return its own update action.
+				result.addAction(onUpdate);
+			} else if (initial != null){
 				current = initial;
 				/*We don't have multiple return types, so load the initial
 				/*  state's actions into the result and do nothing else.  */
 				result.addAction(current.onEntry);
-			} else { 
-				//This is a leaf state and has no children, so just return its own update action.
-				result.addAction(onUpdate);
 			}
 		} else {
 			//Try to find a transition in the current state.
@@ -92,22 +120,27 @@ public class HState {
 				//Note: this is not the same order as in the book.
 				if (result.level > 0){
 					//Transition destined for higher level.
+					System.out.println("Update: Higher level transition");
 					result.addAction(current.onExit);
-					current = null;
+					//Reset the state if the transition calls for it.
+					if (!result.trans.memory)
+						current = null;
 					result.level -= 1;
 				} else {
 					//Both same- and lower-level transitions share some code.
 					HState target = result.trans.getTarget();
 					if (result.level == 0){
 						//Transition is on the same level.
+						System.out.println("Update: Same level transition");
 						result.addAction(current.onExit);
 						result.addAction(result.trans.getAction());
-						result.addAction(target.onExit);
+						result.addAction(target.onEntry);
 						
 						current = target;
-						//result.addActions(getActions());
+						result.addActions(target.getActions());
 					} else {
 						//Transition is on lower level.
+						System.out.println("Update: Lower level transition");
 						HState targetMachine = target.parent;
 						result.addAction(result.trans.getAction());
 						result.addActions(targetMachine.updateDown(target, -result.level));

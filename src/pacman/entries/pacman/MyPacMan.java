@@ -1,5 +1,11 @@
 package pacman.entries.pacman;
 
+import java.util.ArrayList;
+
+import edu.ucsc.gameAI.*;
+import edu.ucsc.gameAI.conditions.*;
+import edu.ucsc.gameAI.hfsm2.HState;
+import edu.ucsc.gameAI.hfsm2.HTransition;
 import pacman.controllers.Controller;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -12,11 +18,23 @@ import pacman.game.Game;
 public class MyPacMan extends Controller<MOVE>
 {
 	private MOVE myMove=MOVE.NEUTRAL;
+	private HState root;	
+	public MyPacMan(){
+		super();
+		root = new HState();
+		root.setUpdateAction(new ConsolePrintAction("FSM Update"));
+		
+	}
 	
 	public MOVE getMove(Game game, long timeDue) 
 	{
 		//Place your game logic here to play the game as Ms Pac-Man
-		
+		ArrayList<IAction> actions = root.getActions();
+		if (!actions.isEmpty()){
+			for (IAction a: actions){
+				a.doAction();
+			}
+		}
 		return myMove;
 	}
 }

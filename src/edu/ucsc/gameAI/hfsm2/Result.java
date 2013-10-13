@@ -25,11 +25,15 @@ public class Result {
 	}
 
 	public void addAction(IAction a){
-		actions.add(a);
+		if (a != null){
+			actions.add(a);
+		}
 	}
 	
-	public void addActions(Collection<IAction> a){
-		actions.addAll(a);
+	public void addActions(Collection<IAction> as){
+		for (IAction a: as){
+			addAction(a);
+		}
 	}
 
 }
