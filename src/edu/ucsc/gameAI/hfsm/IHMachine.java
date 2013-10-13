@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import edu.ucsc.gameAI.IAction;
 
-public interface IMachine {
-	Result update();
+public interface IHMachine extends IHFSMBase{
 	public Collection<IAction> updateDown(IHState state, int level);
+	Result update();
 }
