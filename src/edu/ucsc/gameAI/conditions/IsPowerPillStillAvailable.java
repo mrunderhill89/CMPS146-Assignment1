@@ -3,21 +3,20 @@
  */
 package edu.ucsc.gameAI.conditions;
 
-import pacman.game.Game;
 import edu.ucsc.gameAI.ICondition;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class HasRecievedExtraLife implements ICondition {
+public class IsPowerPillStillAvailable implements ICondition {
 
-	Game game;
+	int pillIndex;
 	
-	public HasRecievedExtraLife(Game _game) {
+	public IsPowerPillStillAvailable(int _pillIndex) {
 		
 	}
-
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

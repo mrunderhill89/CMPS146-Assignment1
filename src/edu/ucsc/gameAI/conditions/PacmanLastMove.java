@@ -3,20 +3,20 @@
  */
 package edu.ucsc.gameAI.conditions;
 
-import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
+import pacman.game.Constants.MOVE;
+import edu.ucsc.gameAI.ICondition;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class GhostEatMultiplier implements ICondition {
+public class PacmanLastMove implements ICondition {
 
 	Game game;
-	int min;
-	int max;
+	MOVE move;
 	
-	public GhostEatMultiplier(Game _game, int _min, int _max) {
+	public PacmanLastMove(Game _game, MOVE _move) {
 		
 	}
 	
