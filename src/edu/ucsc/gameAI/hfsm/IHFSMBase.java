@@ -5,5 +5,8 @@ import edu.ucsc.gameAI.IAction;
 
 public interface IHFSMBase {
 	Collection<IAction> getActions();
-	Result update();
+	HResult update();
+	Collection<IAction> updateDown(IHState state, int level);
+	IHState getCurrentState();
+	IHState getInitialState();
 }

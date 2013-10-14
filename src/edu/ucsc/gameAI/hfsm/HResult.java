@@ -6,12 +6,12 @@ import java.util.Collection;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.fsm.ITransition;
 
-public class Result {
+public class HResult {
 	public ArrayList<IAction> actions;
-	public ITransition trans;
+	public IHTransition trans;
 	public int level;
 	
-	public Result(){
+	public HResult(){
 		actions = new ArrayList<IAction>();
 		initialize();
 	}

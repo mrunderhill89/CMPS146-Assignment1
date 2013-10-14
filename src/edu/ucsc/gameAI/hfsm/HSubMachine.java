@@ -1,18 +1,17 @@
 package edu.ucsc.gameAI.hfsm;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.fsm.ITransition;
 
-public class SubMachine implements IHMachine, IHState {
+public class HSubMachine implements IHState, IHFSMBase {
 	IHState state;
-	IHMachine machine;
+	IHFSMBase machine;
 	
-	@Override
-	public Collection<IAction> getActions() {
-		return machine.getActions();
+	public HSubMachine(){
+		state = new HState();
+		machine = new HFSMBase();
 	}
 	
 	@Override
@@ -36,7 +35,18 @@ public class SubMachine implements IHMachine, IHState {
 	}
 
 	@Override
+	public Collection<IAction> getActions() {
+		return machine.getActions();
+	}
+
+	@Override
+	public Collection<IAction> updateDown(IHState state, int level) {
+		return machine.updateDown(state, level);
+	}
+
+	@Override
 	public Collection<IHState> getStates() {
+		//SHOULD BE:return machine.getStates();
 		return state.getStates();
 	}
 
@@ -46,23 +56,27 @@ public class SubMachine implements IHMachine, IHState {
 	}
 
 	@Override
-	public IHMachine getParent() {
-		return state.getParent();
-	}
-
-	@Override
-	public Result update() {
+	public HResult update() {
 		return machine.update();
 	}
 
 	@Override
-	public Collection<IAction> updateDown(IHState state, int level) {
-		Collection<IAction> actions = new ArrayList<IAction>();
-		//If we're at the top level, continue recursing
-		if (level > 0){
-			actions = state.getParent().updateDown(this, level-1);
-		}
-		actions.addAll(machine.updateDown(state, level)); 
-		return actions;
+	public IHFSMBase getParent() {
+		return state.getParent();
+	}
+
+	@Override
+	public void addTransition(IHTransition t) {
+		state.addTransition(t);
+	}
+
+	@Override
+	public IHState getCurrentState() {
+		return machine.getCurrentState();
+	}
+
+	@Override
+	public IHState getInitialState() {
+		return machine.getInitialState();
 	}
 }
