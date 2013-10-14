@@ -5,24 +5,19 @@ package edu.ucsc.gameAI.conditions;
 
 import edu.ucsc.gameAI.ICondition;
 import pacman.game.Constants.GHOST;
-import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class LastMove implements ICondition {
+public class CurrentGhostNodeIndex implements ICondition {
 
 	Game game;
 	GHOST ghost;
-	MOVE move;
+	int index;
 	
-	public LastMove(Game _game, GHOST _ghost, MOVE _move) {
-		
-	}
-	
-	public LastMove(Game _game, MOVE _move) {
+	public CurrentGhostNodeIndex(Game _game, GHOST _ghost, int _index) {
 		
 	}
 

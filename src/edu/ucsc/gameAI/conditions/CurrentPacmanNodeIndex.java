@@ -10,13 +10,12 @@ import edu.ucsc.gameAI.ICondition;
  * @author Ed Ramirez
  *
  */
-public class CurrentLevel implements ICondition {
+public class CurrentPacmanNodeIndex implements ICondition {
 
 	Game game;
-	int min;
-	int max;
+	int index;
 	
-	public CurrentLevel(Game _game, int _min, int _max) {
+	public CurrentPacmanNodeIndex(Game _game, int _index) {
 		
 	}
 
