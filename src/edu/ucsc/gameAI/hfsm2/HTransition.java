@@ -4,14 +4,14 @@ import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
 
 public class HTransition {
-	HState target;
+	HFSMFull target;
 	IAction action;
 	ICondition condition;
 	int level;
 	//Should the previous machine remember its current state?
 	boolean memory;
 	
-	public HTransition(HState from, HState to, ICondition c, IAction a, boolean m){
+	public HTransition(HFSMFull from, HFSMFull to, ICondition c, IAction a, boolean m){
 		target = to;
 		action = a;
 		condition = c;
@@ -19,15 +19,15 @@ public class HTransition {
 		level = from.getLevel() - to.getLevel();
 		from.transitions.add(this);
 	}
-	public HTransition(HState from, HState to, ICondition c, IAction a){
+	public HTransition(HFSMFull from, HFSMFull to, ICondition c, IAction a){
 		this(from, to, c, a, false);
 	}
 
-	public HTransition(HState from, HState to, ICondition c){
+	public HTransition(HFSMFull from, HFSMFull to, ICondition c){
 		this(from, to, c, null);
 	}
 
-	public HState getTarget() {
+	public HFSMFull getTarget() {
 		return target;
 	}
 
