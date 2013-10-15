@@ -16,13 +16,14 @@ public class CurrentPacmanNodeIndex implements ICondition {
 	int index;
 	
 	public CurrentPacmanNodeIndex(Game _game, int _index) {
-		
+		game = _game;
+		index = _index;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return index == game.getPacmanCurrentNodeIndex();
 	}
 
 }
