@@ -3,6 +3,7 @@ package edu.ucsc.gameAI.hfsm;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.fsm.ITransition;
 
@@ -12,7 +13,9 @@ public class HState implements IHState {
 	IAction onExit;
 	
 	ArrayList<IHTransition> transitions;
-	IHFSMBase parent;
+	ArrayList<IHState> states; //<-I still seriously think this doesn't belong here.
+	IHFSM parent;
+	
 	@Override
 	public IAction getAction() {
 		return onUpdate;
@@ -29,33 +32,69 @@ public class HState implements IHState {
 	}
 
 	@Override
-	public Collection<ITransition> getTransitions() {
-		return null;
-	}
-
-	@Override
-	public Collection<IHState> getStates() {
-		return null;
-	}
-
-	@Override
-	public Collection<IHTransition> getHTransitions() {
+	public Collection<IHTransition> getTransitions() {
 		return transitions;
 	}
 
 	@Override
-	public HResult update() {
+	public Collection<IHState> getStates() {
+		// Shouldn't this be in HFSMBase?
 		return null;
 	}
 
 	@Override
-	public IHFSMBase getParent() {
+	public IResult update(Game game) {
+		IResult out = new HResult();
+		out.addAction(getAction());
+		return out;
+	}
+
+	@Override
+	public IHFSM getParent() {
 		return parent;
 	}
 
 	@Override
 	public void addTransition(IHTransition t) {
 		transitions.add(t);
+	}
+
+	@Override
+	public Collection<IAction> updateDown() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setStates(Collection<IHState> s) {
+		states.clear();
+		s.addAll(s);
+	}
+
+	@Override
+	public void setAction(IAction a) {
+		onUpdate = a;
+	}
+
+	@Override
+	public void setEntryAction(IAction a) {
+		onEntry = a;
+	}
+
+	@Override
+	public void setExitAction(IAction a) {
+		onExit = a;
+	}
+
+	@Override
+	public void setTransitions(Collection<IHTransition> ts) {
+		transitions.clear();
+		transitions.addAll(ts);
+	}
+
+	@Override
+	public void setParent(IHFSM p) {
+		parent = p;
 	}
 
 }

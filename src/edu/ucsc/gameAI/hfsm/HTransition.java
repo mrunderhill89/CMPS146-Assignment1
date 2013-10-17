@@ -1,5 +1,6 @@
 package edu.ucsc.gameAI.hfsm;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
 import edu.ucsc.gameAI.fsm.IState;
@@ -49,17 +50,32 @@ public class HTransition implements IHTransition {
 	}
 	
 	@Override
-	public IState getTargetState() {
+	public IHState getTargetState() {
 		return target;
 	}
-	
-	@Override
-	public IHState getTargetHState() {
-		return target;
-	}
-	
+		
 	@Override
 	public boolean isRememberState() {
 		return memory;
+	}
+
+	@Override
+	public void setTargetState(IHState targetState) {
+		target = targetState;
+	}
+
+	@Override
+	public void setAction(IAction a) {
+		action = a;
+	}
+
+	@Override
+	public boolean isTriggered(Game game) {
+		return condition.test();
+	}
+
+	@Override
+	public void setLevel(int l) {
+		level = l;
 	}
 }
