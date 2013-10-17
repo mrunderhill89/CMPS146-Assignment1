@@ -18,13 +18,14 @@ public class CurrentGhostNodeIndex implements ICondition {
 	int index;
 	
 	public CurrentGhostNodeIndex(Game _game, GHOST _ghost, int _index) {
-		
+		game = _game;
+		ghost = _ghost;
+		index = _index;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		return index == game.getGhostCurrentNodeIndex(ghost);
 	}
 
 }

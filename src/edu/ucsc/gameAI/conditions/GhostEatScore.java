@@ -17,13 +17,15 @@ public class GhostEatScore implements ICondition {
 	int max;
 	
 	public GhostEatScore(Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		int score = game.getGhostCurrentEdibleScore();
+		return score < max && score > min;
 	}
 
 }

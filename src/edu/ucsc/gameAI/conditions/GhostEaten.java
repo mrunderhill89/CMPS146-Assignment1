@@ -17,13 +17,14 @@ public class GhostEaten implements ICondition {
 	GHOST ghost;
 	
 	public GhostEaten(Game _game, GHOST _ghost) {
-		
+		game = _game;
+		ghost = _ghost;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return game.wasGhostEaten(ghost);
 	}
 
 }

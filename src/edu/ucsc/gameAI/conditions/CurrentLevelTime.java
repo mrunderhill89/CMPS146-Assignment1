@@ -17,13 +17,17 @@ public class CurrentLevelTime implements ICondition {
 	int max;
 	
 	public CurrentLevelTime(Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		int time = game.getCurrentLevelTime(); 
+		
+		return time < max && time > min;
 	}
 
 }

@@ -20,13 +20,17 @@ public class EdibleTime implements ICondition {
 	int max;
 	
 	public EdibleTime(Game _game, GHOST _ghost, int _min, int _max) {
-		
+		game = _game;
+		ghost = _ghost;
+		min = _min;
+		max = _max;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		int time = game.getGhostEdibleTime(ghost);
+		
+		return time < max && time > min;
 	}
 
 }

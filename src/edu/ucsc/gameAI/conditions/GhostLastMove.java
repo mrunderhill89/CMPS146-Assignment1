@@ -19,13 +19,15 @@ public class GhostLastMove implements ICondition {
 	MOVE move;
 	
 	public GhostLastMove(Game _game, GHOST _ghost, MOVE _move) {
-		
+		game = _game;
+		ghost = _ghost;
+		move = _move;
 	}
 
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return move == game.getGhostLastMoveMade(ghost);
 	}
 
 }
