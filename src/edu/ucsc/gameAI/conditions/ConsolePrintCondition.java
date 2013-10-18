@@ -1,7 +1,12 @@
 package edu.ucsc.gameAI.conditions;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.ICondition;
-
+/**
+ * 
+ * @author Kevin Cameron
+ *
+ */
 public class ConsolePrintCondition implements ICondition {
 	protected String label;
 	protected ICondition test;
@@ -14,13 +19,25 @@ public class ConsolePrintCondition implements ICondition {
 	@Override
 	public boolean test() {
 		System.out.print(label);
-		boolean v = test.test();
-		if (v){
-			System.out.println("true");
+		boolean subTest = test.test();
+		if (subTest){
+			System.out.println(":true");
 		} else {
-			System.out.println("false");
+			System.out.println(":false");
 		}
-		return v;
+		return subTest;
+	}
+	
+	@Override
+	public boolean test(Game game){
+		System.out.print(label);
+		boolean subTest = test.test(game);
+		if (subTest){
+			System.out.println(":true");
+		} else {
+			System.out.println(":false");
+		}
+		return subTest;
 	}
 
 }

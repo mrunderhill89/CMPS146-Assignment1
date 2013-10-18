@@ -31,20 +31,24 @@ public class HTransition implements IHTransition {
 		this(from, to, c, null);
 	}
 
+	@Override
 	public IAction getAction() {
 		return action;
 	}
 
+	@Override
 	public void setCondition(ICondition c) {
 		this.condition = c;
 	}
 
-	public boolean isTriggered() {
+	@Override
+	public boolean isTriggered(Game game) {
 		if (condition == null)
 			return false;
-		return condition.test();
+		return condition.test(game);
 	}
 	
+	@Override
 	public int getLevel(){
 		return level;
 	}
@@ -67,11 +71,6 @@ public class HTransition implements IHTransition {
 	@Override
 	public void setAction(IAction a) {
 		action = a;
-	}
-
-	@Override
-	public boolean isTriggered(Game game) {
-		return condition.test();
 	}
 
 	@Override

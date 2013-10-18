@@ -18,7 +18,13 @@ public class IsPillStillAvailable implements ICondition {
 	public IsPillStillAvailable(Game _game, int _pillIndex) {
 		
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

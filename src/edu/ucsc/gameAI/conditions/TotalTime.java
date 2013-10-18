@@ -17,9 +17,17 @@ public class TotalTime implements ICondition {
 	int max;
 	
 	public TotalTime(Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

@@ -20,8 +20,13 @@ public class HFSM implements IHFSM {
 		internal = new HState();
 	}
 	
-	public ArrayList<IAction> updateDown(IHState state, int level){
+	@Override
+	public ArrayList<IAction> updateDown(IHState state, int level, Game game){
 		ArrayList<IAction> actions = new ArrayList<IAction>();
+		//If we're not at the top level, continue recursing
+		if (level > 0){
+			actions.addAll(internal.getParent().updateDown(this, level-1, game));
+		}
 		//If we're in a state, exit it.
 		if (current != null){
 			actions.add(current.getExitAction());
@@ -31,14 +36,17 @@ public class HFSM implements IHFSM {
 		return actions;
 	}
 
+	@Override
 	public Collection<IAction> getActions(Game game) {
 		return update(game).getActions();
 	}
 
+	@Override
 	public IHState getCurrentState(){
 		return current;
 	}
 
+	@Override
 	public IHState getInitialState(){
 		return initial;
 	}
@@ -166,19 +174,8 @@ public class HFSM implements IHFSM {
 	}
 
 	@Override
-	public Collection<IAction> updateDown() {
-		return internal.updateDown();
-	}
-
-	@Override
-	public Collection<IAction> updateDown(IHState state, int level, Game game) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setInitialState(IHState initialState) {
-		
+		initial = initialState;
 	}
 
 	@Override

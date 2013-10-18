@@ -1,6 +1,8 @@
 package edu.ucsc.gameAI.hfsm;
 
 import java.util.Collection;
+
+import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 
 /**
@@ -35,5 +37,7 @@ public interface IHState extends IHFSMBase {
 	public IHFSM getParent();
 	
 	public void setParent(IHFSM parent);
+
+	Collection<IAction> updateDown(IHState state, int level, Game game);
 	
 }

@@ -15,7 +15,13 @@ public class PacmanInRegion implements ICondition {
 	public PacmanInRegion(Game _game, int x1, int y1, int x2, int y2) {
 		
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

@@ -23,6 +23,12 @@ public class GhostEatScore implements ICondition {
 	}
 	
 	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
+	@Override
 	public boolean test() {
 		int score = game.getGhostCurrentEdibleScore();
 		return score < max && score > min;

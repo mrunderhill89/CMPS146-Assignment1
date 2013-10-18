@@ -19,7 +19,13 @@ public class NumberOfLivesRemaining implements ICondition {
 	public NumberOfLivesRemaining(Game _game, int _min, int _max) {
 		
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub

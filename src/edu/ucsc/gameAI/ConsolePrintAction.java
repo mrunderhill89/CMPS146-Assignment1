@@ -2,6 +2,11 @@ package edu.ucsc.gameAI;
 
 import pacman.game.Constants.MOVE;
 
+/**
+ * 
+ * @author Kevin Cameron
+ *
+ */
 public class ConsolePrintAction implements IAction {
 	protected String message;
 	protected IAction action;

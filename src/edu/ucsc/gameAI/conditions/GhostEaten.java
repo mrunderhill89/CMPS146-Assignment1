@@ -20,7 +20,13 @@ public class GhostEaten implements ICondition {
 		game = _game;
 		ghost = _ghost;
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		

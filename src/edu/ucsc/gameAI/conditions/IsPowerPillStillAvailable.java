@@ -3,6 +3,7 @@
  */
 package edu.ucsc.gameAI.conditions;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.ICondition;
 
 /**
@@ -15,6 +16,12 @@ public class IsPowerPillStillAvailable implements ICondition {
 	
 	public IsPowerPillStillAvailable(int _pillIndex) {
 		
+	}
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
 	}
 	
 	@Override

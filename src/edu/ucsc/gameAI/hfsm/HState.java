@@ -38,8 +38,7 @@ public class HState implements IHState {
 
 	@Override
 	public Collection<IHState> getStates() {
-		// Shouldn't this be in HFSMBase?
-		return null;
+		return states;
 	}
 
 	@Override
@@ -58,11 +57,15 @@ public class HState implements IHState {
 	public void addTransition(IHTransition t) {
 		transitions.add(t);
 	}
-
+	
 	@Override
-	public Collection<IAction> updateDown() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<IAction> updateDown(IHState state, int level, Game game) {
+		ArrayList<IAction> actions = new ArrayList<IAction>();
+		//If we're not at the top level, continue recursing
+		if (level > 0){
+			actions.addAll(parent.updateDown(this, level-1, game));
+		}
+		return actions;
 	}
 
 	@Override

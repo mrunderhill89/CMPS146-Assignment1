@@ -17,7 +17,13 @@ public class PowerPillWasEaten implements ICondition {
 	public PowerPillWasEaten(Game _game) {
 		
 	}
-
+	
+	@Override
+	public boolean test(Game _game){
+		game = _game;
+		return test();
+	}
+	
 	@Override
 	public boolean test() {
 		// TODO Auto-generated method stub
