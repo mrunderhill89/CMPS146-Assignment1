@@ -14,7 +14,6 @@ public class HState implements IHState {
 	String name;
 	
 	ArrayList<IHTransition> transitions;
-	ArrayList<IHState> states; //<-I still seriously think this doesn't belong here.
 	IHFSM parent;
 	
 	public HState(){
@@ -23,7 +22,6 @@ public class HState implements IHState {
 		onExit = null;
 		name = "HFSM";
 		transitions = new ArrayList<IHTransition>();
-		states = new ArrayList<IHState>();
 	}
 	
 	public HState(String n){
@@ -57,7 +55,9 @@ public class HState implements IHState {
 
 	@Override
 	public Collection<IHState> getStates() {
-		return states;
+		ArrayList<IHState> out = new ArrayList<IHState>();
+		out.add(this);
+		return out;
 	}
 
 	@Override
@@ -89,8 +89,7 @@ public class HState implements IHState {
 
 	@Override
 	public void setStates(Collection<IHState> s) {
-		states.clear();
-		s.addAll(s);
+		//Doesn't do anything since this isn't a state machine.
 	}
 
 	@Override

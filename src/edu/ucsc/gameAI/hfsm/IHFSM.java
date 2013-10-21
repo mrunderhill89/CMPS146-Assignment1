@@ -23,4 +23,6 @@ public interface IHFSM extends IHState {
 
 	IHState getCurrentState();
 
+	void addState(IHFSM child);
+
 }

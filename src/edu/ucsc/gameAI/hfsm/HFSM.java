@@ -8,18 +8,28 @@ import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 
 public class HFSM implements IHFSM {
-	HashSet<IHState> states;
+	ArrayList<IHState> states;
 	IHState current;
 	IHState initial;
 	IHState internal;
-	
-	public HFSM(){
-		states = new HashSet<IHState>();
+	String name;
+	public HFSM(String n){
+		states = new ArrayList<IHState>();
 		current = null;
 		initial = null;
-		internal = new HState();
+		internal = new HState(n);
+		name = n;
 	}
 	
+	public HFSM() {
+		this("HFSM");
+	}
+	
+	public HFSM(String n, HFSM p){
+		this(n);
+		p.addState(this);
+	}
+
 	@Override
 	public ArrayList<IAction> updateDown(IHState state, int level, Game game){
 		ArrayList<IAction> actions = new ArrayList<IAction>();
@@ -55,6 +65,7 @@ public class HFSM implements IHFSM {
 		return internal;
 	}
 	
+	@Override
 	public Collection<IHState> getStates(){
 		return states;
 	}
@@ -63,10 +74,15 @@ public class HFSM implements IHFSM {
 		IResult result = new HResult();
 			//If we're starting from scratch, enter the initial state.
 			if (current == null){
-				current = initial;
-				/*We don't have multiple return types, so load the initial
-				/*  state's actions into the result and do nothing else.  */
-				result.addAction(current.getEntryAction());
+				if (initial != null){
+					current = initial;
+					/*We don't have multiple return types, so load the initial
+					/*  state's actions into the result and do nothing else.  */
+					result.addAction(current.getEntryAction());
+				} else {
+					/*Somehow we got a leaf state with no substates, so just tack on our own update function*/
+					result.addAction(getAction());
+				}
 			} else {
 				//Try to find a transition in the current state.
 				IHTransition triggered = null;
@@ -126,8 +142,14 @@ public class HFSM implements IHFSM {
 	public void setStates(Collection<IHState> s) {
 		states.clear();
 		states.addAll(s);
+		current = null;
+		if (states.isEmpty()){
+			initial = null;
+		} else {
+			initial = states.get(0);
+		}
 	}
-
+	
 	@Override
 	public IAction getAction() {
 		return internal.getAction();
@@ -187,4 +209,12 @@ public class HFSM implements IHFSM {
 	public void setParent(IHFSM p) {
 		internal.setParent(p);
 	}
+	
+	@Override 
+	public void addState(IHFSM child) {
+		if (states.isEmpty())
+			setInitialState(child);
+		states.add(child);
+	}
+	
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import edu.ucsc.gameAI.*;
 import edu.ucsc.gameAI.conditions.*;
-import edu.ucsc.gameAI.hfsm2.HFSMFull;
-import edu.ucsc.gameAI.hfsm2.HTransition;
+import edu.ucsc.gameAI.hfsm.HFSM;
+import edu.ucsc.gameAI.hfsm.HTransition;
 import pacman.controllers.Controller;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -18,34 +18,37 @@ import pacman.game.Game;
 public class MyPacMan extends Controller<MOVE>
 {
 	private MOVE myMove=MOVE.NEUTRAL;
-	private HFSMFull root;	
+	private HFSM root;	
 	public MyPacMan(){
 		super();
 		generateFSM();
 	}
 
 	protected void generateFSM(){
-		root = new HFSMFull("root");
+		root = new HFSM("root");
 		
 		//Find the shortest path to the nearest pill
-		HFSMFull gather = new HFSMFull("gather", root);
+		HFSM gather = new HFSM("gather", root);
 		gather.setEntryAction(new ConsolePrintAction("begin gather state"));
-		gather.setUpdateAction(new ConsolePrintAction("gather state", new GoRightAction()));
-				
+		gather.setAction(new GoRightAction());
+		
 		//There is a ghost in Pac-Man's way to the next pill. Try to get him out of the way.
-		HFSMFull lure = new HFSMFull("lure", root);
+		HFSM lure = new HFSM("lure", root);
 		lure.setEntryAction(new ConsolePrintAction("begin lure state"));
-		lure.setUpdateAction(new ConsolePrintAction("lure state", new GoLeftAction()));
+		lure.setAction(new GoLeftAction());
 		
 		//There is a ghost following Pac-Man. Try to shake it off.
-		HFSMFull retreat = new HFSMFull("retreat", root);
+		HFSM retreat = new HFSM("retreat", root);
 		retreat.setEntryAction(new ConsolePrintAction("begin retreat state"));
-		retreat.setUpdateAction(new ConsolePrintAction("retreat state"));
+		retreat.setAction(new GoUpAction());
 		
 		//Pac-Man has just eaten a power pill. Eat all the ghosts!
-		HFSMFull rampage = new HFSMFull("rampage", root);
+		HFSM rampage = new HFSM("rampage", root);
 		rampage.setEntryAction(new ConsolePrintAction("begin rampage state"));
-		rampage.setUpdateAction(new ConsolePrintAction("rampage state"));
+		rampage.setAction(new GoDownAction());
+		
+		HTransition onPillEatenL = new HTransition(gather, lure, new PillWasEaten());
+		HTransition onPillEatenR = new HTransition(lure, gather, new PillWasEaten());
 	}
 	
 	protected void generateTrees(){
@@ -56,12 +59,13 @@ public class MyPacMan extends Controller<MOVE>
 	{
 		myMove = MOVE.NEUTRAL;
 		//Place your game logic here to play the game as Ms Pac-Man
-		ArrayList<IAction> actions = root.getActions();
+		ArrayList<IAction> actions = new ArrayList<IAction>();
+		actions.addAll(root.update(game).getActions());
 		if (!actions.isEmpty()){
 			for (IAction a: actions){
-				a.doAction();
+				a.doAction(game);
 				if (a.getMove() != MOVE.NEUTRAL){
-					myMove = a.getMove();
+					myMove = a.getMove(game);
 				}
 			}
 		}
