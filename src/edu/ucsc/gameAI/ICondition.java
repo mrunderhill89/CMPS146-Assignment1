@@ -15,6 +15,7 @@ public interface ICondition {
 	 * @return Result of evaluating the conditional expression.
 	 */
 	public boolean test(Game game);
+
 	public boolean test();
 	
 }

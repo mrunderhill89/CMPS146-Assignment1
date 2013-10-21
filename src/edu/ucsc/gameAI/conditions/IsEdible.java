@@ -14,6 +14,10 @@ public class IsEdible implements ICondition {
 		ghost=_ghost;
 	}
 	
+	public IsEdible(GHOST _ghost){
+		this(null,_ghost);
+	}
+	
 	@Override
 	public boolean test(Game _game){
 		game = _game;

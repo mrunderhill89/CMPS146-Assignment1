@@ -11,10 +11,29 @@ public class HState implements IHState {
 	IAction onEntry;
 	IAction onUpdate;
 	IAction onExit;
+	String name;
 	
 	ArrayList<IHTransition> transitions;
 	ArrayList<IHState> states; //<-I still seriously think this doesn't belong here.
 	IHFSM parent;
+	
+	public HState(){
+		onEntry = null;
+		onUpdate = null;
+		onExit = null;
+		name = "HFSM";
+		transitions = new ArrayList<IHTransition>();
+		states = new ArrayList<IHState>();
+	}
+	
+	public HState(String n){
+		this();
+		name = n;
+	}
+	
+	public String getName(){
+		return name;
+	}
 	
 	@Override
 	public IAction getAction() {

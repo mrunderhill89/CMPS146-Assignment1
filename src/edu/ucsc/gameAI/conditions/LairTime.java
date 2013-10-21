@@ -22,6 +22,10 @@ public class LairTime implements ICondition {
 		
 	}
 	
+	public LairTime(GHOST _ghost, int _min, int _max){
+		this(null, _ghost, _min, _max);
+	}
+	
 	@Override
 	public boolean test(Game _game){
 		game = _game;

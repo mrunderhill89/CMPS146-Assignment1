@@ -20,6 +20,10 @@ public class NumberOfLivesRemaining implements ICondition {
 		
 	}
 	
+	public NumberOfLivesRemaining(int _min) {
+		this(null, _min, Integer.MAX_VALUE);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

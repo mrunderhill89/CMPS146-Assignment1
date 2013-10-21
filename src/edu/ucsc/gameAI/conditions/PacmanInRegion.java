@@ -12,8 +12,15 @@ import edu.ucsc.gameAI.ICondition;
  */
 public class PacmanInRegion implements ICondition {
 
+	Game game;
+	
 	public PacmanInRegion(Game _game, int x1, int y1, int x2, int y2) {
-		
+		this(x1, y1, x2, y2);
+		game = _game;
+	}
+	
+	public PacmanInRegion(int x1, int y1, int x2, int y2){
+		game = null;
 	}
 	
 	@Override

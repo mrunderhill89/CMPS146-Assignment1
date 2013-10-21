@@ -20,6 +20,10 @@ public class TimeOfLastGlobalReversal implements ICondition {
 		
 	}
 	
+	public TimeOfLastGlobalReversal(int _min, int _max) {
+		this(null,_min,_max);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

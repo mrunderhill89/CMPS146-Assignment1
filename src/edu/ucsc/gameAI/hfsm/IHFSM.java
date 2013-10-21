@@ -19,8 +19,8 @@ public interface IHFSM extends IHState {
 	
 	public void setParent(IHFSM parent);
 
-	IHState getCurrentState();
+	Collection<IAction> getActions(Game game);
 
-	public Collection<IAction> getActions(Game game);
+	IHState getCurrentState();
 
 }

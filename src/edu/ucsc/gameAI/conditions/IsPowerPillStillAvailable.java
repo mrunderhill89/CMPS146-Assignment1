@@ -13,9 +13,9 @@ import edu.ucsc.gameAI.ICondition;
 public class IsPowerPillStillAvailable implements ICondition {
 
 	int pillIndex;
-	
+	Game game;
 	public IsPowerPillStillAvailable(int _pillIndex) {
-		
+		game = null;
 	}
 	
 	@Override

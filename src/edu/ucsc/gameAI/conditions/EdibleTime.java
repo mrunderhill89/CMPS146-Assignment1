@@ -25,7 +25,9 @@ public class EdibleTime implements ICondition {
 		min = _min;
 		max = _max;
 	}
-	
+	public EdibleTime(GHOST _ghost, int _min, int _max) {
+		this(null, _ghost, _min, _max);
+	}
 	@Override
 	public boolean test(Game _game){
 		game = _game;

@@ -18,6 +18,10 @@ public class PacmanWasEaten implements ICondition {
 		
 	}
 	
+	public PacmanWasEaten() {
+		this(null);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

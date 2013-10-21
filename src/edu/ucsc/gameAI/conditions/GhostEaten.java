@@ -21,6 +21,10 @@ public class GhostEaten implements ICondition {
 		ghost = _ghost;
 	}
 	
+	public GhostEaten(GHOST _ghost) {
+		this(null, _ghost);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

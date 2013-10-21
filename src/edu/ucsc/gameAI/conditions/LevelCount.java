@@ -19,6 +19,10 @@ public class LevelCount implements ICondition {
 		
 	}
 
+	public LevelCount(int _level) {
+		this(null, _level);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

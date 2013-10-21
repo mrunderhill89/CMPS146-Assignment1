@@ -19,6 +19,10 @@ public class IsPillStillAvailable implements ICondition {
 		
 	}
 	
+	public IsPillStillAvailable(int _pillIndex) {
+		this(null, _pillIndex);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

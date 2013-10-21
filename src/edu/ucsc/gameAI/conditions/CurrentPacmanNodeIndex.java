@@ -20,6 +20,10 @@ public class CurrentPacmanNodeIndex implements ICondition {
 		index = _index;
 	}
 	
+	public CurrentPacmanNodeIndex(int _index) {
+		this(null, _index);
+	}
+	
 	@Override
 	public boolean test(Game _game){
 		game = _game;

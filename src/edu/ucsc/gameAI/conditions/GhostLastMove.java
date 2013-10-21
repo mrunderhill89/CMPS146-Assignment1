@@ -24,6 +24,10 @@ public class GhostLastMove implements ICondition {
 		move = _move;
 	}
 	
+	public GhostLastMove(GHOST _ghost, MOVE _move) {
+		this(null, _ghost, _move);
+	}
+	
 	@Override
 	public boolean test(Game _game){
 		game = _game;

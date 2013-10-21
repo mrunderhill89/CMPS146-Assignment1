@@ -11,9 +11,13 @@ import edu.ucsc.gameAI.ICondition;
  *
  */
 public class GhostInRegion implements ICondition {
-
+	Game game;
 	public GhostInRegion(Game _game, int x1, int y1, int x2, int y2) {
-		
+		game = _game;
+	}
+	
+	public GhostInRegion(int x1, int y1, int x2, int y2) {
+		this(null, x1, x2, y1, y2);
 	}
 	
 	@Override

@@ -17,7 +17,12 @@ public class PacmanLastMove implements ICondition {
 	MOVE move;
 	
 	public PacmanLastMove(Game _game, MOVE _move) {
-		
+		game = _game;
+		move = _move;
+	}
+	
+	public PacmanLastMove(MOVE _move){
+		this(null,_move);
 	}
 	
 	@Override

@@ -14,18 +14,31 @@ public class HTransition implements IHTransition {
 	//Should the previous machine remember its current state?
 	boolean memory;
 	
-	public HTransition(IHState from, IHState to, ICondition c, IAction a, boolean m){
+	
+	public HTransition(IHState to, ICondition c, IAction a, boolean m){
 		target = to;
 		action = a;
 		condition = c;
 		memory = m;
-		level = 0;
+	}
+
+	public HTransition(IHState from, IHState to, ICondition c, IAction a, boolean m){
+		this(to,c,a,m);
 		from.addTransition(this);
 	}
 
 	public HTransition(IHState from, IHState to, ICondition c, IAction a){
 		this(from, to, c, a, false);
 	}
+
+	public HTransition(IHState to, ICondition c, IAction a){
+		this(to,c,a,false);
+	}
+
+	public HTransition(IHState to, ICondition c){
+		this(to,c,null,false);
+	}
+
 
 	public HTransition(IHState from, IHState to, ICondition c){
 		this(from, to, c, null);

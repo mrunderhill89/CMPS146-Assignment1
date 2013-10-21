@@ -18,6 +18,10 @@ public class PillWasEaten implements ICondition {
 		
 	}
 	
+	public PillWasEaten() {
+		this(null);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

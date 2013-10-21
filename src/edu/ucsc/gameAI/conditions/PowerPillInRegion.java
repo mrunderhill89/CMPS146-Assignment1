@@ -11,9 +11,13 @@ import edu.ucsc.gameAI.ICondition;
  *
  */
 public class PowerPillInRegion implements ICondition {
-
+	Game game;
 	public PowerPillInRegion(Game _game, int x1, int y1, int x2, int y2) {
-		
+		game = _game;
+	}
+	
+	public PowerPillInRegion(int x1, int y1, int x2, int y2) {
+		this(null,x1,y1,x2,y2);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
+
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
@@ -22,11 +23,13 @@ import pacman.controllers.examples.RandomNonRevPacMan;
 import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
-import pacman.entries.pacman.MyPacMan;
+import pacman.entries.ghosts.*;
 import pacman.game.Game;
 import pacman.game.GameView;
-
 import static pacman.game.Constants.*;
+import edu.ucsc.gameAI.*;
+import edu.ucsc.gameAI.conditions.*;
+import pacman.Evaluator;
 
 /**
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -46,11 +49,11 @@ public class Executor
 	{
 		Executor exec=new Executor();
 
-		/*
+		
 		//run multiple games in batch mode - good for testing.
-		int numTrials=10;
-		exec.runExperiment(new RandomPacMan(),new RandomGhosts(),numTrials);
-		 */
+		int numTrials=10000;
+		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
+		 
 		
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
@@ -62,10 +65,16 @@ public class Executor
 		///*
 		//run the game in asynchronous mode.
 		boolean visual=true;
+		
+		// run unit tests during execution
+		boolean bRunUnitTests=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
-//		exec.runGameTimed(new StarterPacMan(),new StarterGhosts(),visual);
+
+		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
+		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+		exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
+
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
-		exec.runGameTimed(new MyPacMan(),new StarterGhosts(),visual);
 		//*/
 		
 		/*
@@ -118,7 +127,7 @@ public class Executor
 		
 		System.out.println(avgScore/trials);
     }
-	
+    
 	/**
 	 * Run a game in asynchronous mode: the game waits until a move is returned. In order to slow thing down in case
 	 * the controllers return very quickly, a time limit can be used. If fasted gameplay is required, this delay
@@ -146,6 +155,7 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
+	        
 		}
 	}
 	
@@ -157,9 +167,10 @@ public class Executor
      * @param ghostController The Ghosts controller
 	 * @param visual Indicates whether or not to use visuals
      */
-    public void runGameTimed(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean visual)
+    public void runGameTimed(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean visual,boolean bRunUnitTests)
 	{
 		Game game=new Game(0);
+		Evaluator eval = new Evaluator();
 		
 		GameView gv=null;
 		
@@ -190,6 +201,10 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
+	        
+	        if (bRunUnitTests)
+	        	eval.runUnitTests(game,pacManController,ghostController);
+
 		}
 		
 		pacManController.terminate();

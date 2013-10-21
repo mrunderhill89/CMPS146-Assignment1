@@ -20,6 +20,10 @@ public class MazeIndex implements ICondition {
 		
 	}
 	
+	public MazeIndex(int _index) {
+		this(null, _index);
+	}
+
 	@Override
 	public boolean test(Game _game){
 		game = _game;

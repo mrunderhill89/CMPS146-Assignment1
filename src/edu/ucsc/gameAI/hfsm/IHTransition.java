@@ -49,6 +49,7 @@ public interface IHTransition {
 	 */
 	public boolean isTriggered(Game game);
 
+	
 	public int getLevel();
 	
 	public void setLevel(int level);

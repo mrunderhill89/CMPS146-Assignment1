@@ -23,6 +23,9 @@ public class CurrentGhostNodeIndex implements ICondition {
 		index = _index;
 	}
 
+	public CurrentGhostNodeIndex(GHOST _ghost, int _index){
+		this(null, _ghost, _index);
+	}
 	@Override
 	public boolean test(Game _game){
 		game = _game;
