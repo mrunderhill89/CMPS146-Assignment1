@@ -1,6 +1,7 @@
 package edu.ucsc.gameAI;
 
 import pacman.game.Constants.MOVE;
+import pacman.game.Game;
 
 /**
  * 
@@ -22,15 +23,32 @@ public class ConsolePrintAction implements IAction {
 	
 	@Override
 	public void doAction() {
+		doAction(null);
+	}
+	
+	@Override
+	public void doAction(Game game) {
 		System.out.println(message);
 		if (action != null){
-			action.doAction();
+			if (game != null)
+				action.doAction(game);
+			else
+				action.doAction();
 		}
 	}
 	
-	public MOVE getMove(){
-		if (action != null)
-			return action.getMove();
+	public MOVE getMove(Game game){
+		if (action != null){
+			if (game != null){
+				return action.getMove(game);
+			} else {
+				return action.getMove();
+			}
+		}
 		return MOVE.NEUTRAL;
+	}
+
+	public MOVE getMove(){
+		return getMove(null);
 	}
 }

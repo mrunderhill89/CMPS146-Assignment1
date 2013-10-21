@@ -30,8 +30,7 @@ public class PowerPillWasEaten implements ICondition {
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		return game.wasPowerPillEaten();
 	}
 
 }

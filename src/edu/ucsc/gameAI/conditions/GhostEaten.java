@@ -33,7 +33,6 @@ public class GhostEaten implements ICondition {
 	
 	@Override
 	public boolean test() {
-		
 		return game.wasGhostEaten(ghost);
 	}
 

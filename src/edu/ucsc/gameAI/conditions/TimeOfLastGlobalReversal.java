@@ -32,8 +32,8 @@ public class TimeOfLastGlobalReversal implements ICondition {
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		int time = game.getTimeOfLastGlobalReversal();
+		return time < max && time > min;
 	}
 
 }

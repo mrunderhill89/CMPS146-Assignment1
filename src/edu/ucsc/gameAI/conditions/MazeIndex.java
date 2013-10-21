@@ -17,7 +17,8 @@ public class MazeIndex implements ICondition {
 	
 	public MazeIndex(Game _game, int _index)
 	{
-		
+		game = _game;
+		index = _index;
 	}
 	
 	public MazeIndex(int _index) {
@@ -32,7 +33,9 @@ public class MazeIndex implements ICondition {
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
+		if (index == game.getMazeIndex()){
+			return true;
+		}
 		return false;
 	}
 

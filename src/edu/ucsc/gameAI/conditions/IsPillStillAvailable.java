@@ -32,7 +32,6 @@ public class IsPillStillAvailable implements ICondition {
 	
 	@Override
 	public boolean test() {
-		
 		return game.isPillStillAvailable(pillIndex);
 	}
 

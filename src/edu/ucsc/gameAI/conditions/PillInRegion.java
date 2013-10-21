@@ -13,9 +13,16 @@ import edu.ucsc.gameAI.ICondition;
 public class PillInRegion implements ICondition {
 
 	Game game;
-	
+	int xMin;
+	int yMin;
+	int xMax;
+	int yMax;
 	public PillInRegion(Game _game, int x1, int y1, int x2, int y2) {
 		game = _game;
+		xMin = Math.min(x1, x2);
+		xMax = Math.max(x1, x2);
+		yMin = Math.min(y1, y2);
+		yMax = Math.min(y1, y2);
 	}
 	
 	public PillInRegion(int x1, int y1, int x2, int y2) {
@@ -30,7 +37,15 @@ public class PillInRegion implements ICondition {
 		
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
+		int[] activePills = game.getActivePillsIndices();
+		for (int p : activePills){
+			int x = game.getNodeXCood(p);
+			if (x >= xMin && x <= xMax){
+				int y = game.getNodeYCood(p);
+				if (y >= yMin && y <= yMax)
+					return true;
+			}
+		}
 		return false;
 	}
 

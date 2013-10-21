@@ -30,8 +30,7 @@ public class PacmanWasEaten implements ICondition {
 		
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		return game.wasPacManEaten();
 	}
 
 }

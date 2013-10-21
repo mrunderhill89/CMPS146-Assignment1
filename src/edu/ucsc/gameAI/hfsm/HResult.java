@@ -28,7 +28,8 @@ public class HResult implements IResult {
 
 	@Override
 	public void addAction(IAction a){
-		actions.add(a);
+		if (a != null)
+			actions.add(a);
 	}
 	
 	@Override

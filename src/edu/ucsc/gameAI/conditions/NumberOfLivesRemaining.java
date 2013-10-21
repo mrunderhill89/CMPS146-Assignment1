@@ -32,8 +32,8 @@ public class NumberOfLivesRemaining implements ICondition {
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		int lives = game.getPacmanNumberOfLivesRemaining();
+		return lives <= max && lives >= min;
 	}
 
 }

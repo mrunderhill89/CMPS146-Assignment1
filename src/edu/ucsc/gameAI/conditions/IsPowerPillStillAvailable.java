@@ -14,15 +14,15 @@ public class IsPowerPillStillAvailable implements ICondition {
 
 	int pillIndex;
 	Game game;
-	public IsPowerPillStillAvailable(int _pillIndex) {
-		this (null, _pillIndex);
-	}
 	
 	public IsPowerPillStillAvailable(Game _game, int _pillIndex) {
 		game = _game;
 		pillIndex = _pillIndex;
 	}
 	
+	public IsPowerPillStillAvailable(int _pillIndex) {
+		this(null, _pillIndex);
+	}
 	@Override
 	public boolean test(Game _game){
 		game = _game;
@@ -31,7 +31,6 @@ public class IsPowerPillStillAvailable implements ICondition {
 	
 	@Override
 	public boolean test() {
-		
 		return game.isPowerPillStillAvailable(pillIndex);
 	}
 

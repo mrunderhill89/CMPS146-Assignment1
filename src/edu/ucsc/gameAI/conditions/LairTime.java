@@ -37,8 +37,8 @@ public class LairTime implements ICondition {
 	
 	@Override
 	public boolean test() {
-		// TODO Auto-generated method stub
-		return false;
+		int time = game.getGhostLairTime(ghost);
+		return time < max && time > min;
 	}
 
 }

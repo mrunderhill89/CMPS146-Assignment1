@@ -34,9 +34,7 @@ public class CurrentLevelTime implements ICondition {
 	
 	@Override
 	public boolean test() {
-		
 		int time = game.getCurrentLevelTime(); 
-		
 		return time < max && time > min;
 	}
 
