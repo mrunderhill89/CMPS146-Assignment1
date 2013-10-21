@@ -15,7 +15,7 @@ public class PowerPillWasEaten implements ICondition {
 	Game game;
 	
 	public PowerPillWasEaten(Game _game) {
-		
+		game = _game;
 	}
 	
 	public PowerPillWasEaten() {

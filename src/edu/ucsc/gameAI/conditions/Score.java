@@ -17,7 +17,9 @@ public class Score implements ICondition {
 	int max;
 	
 	public Score (Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
 	
 	public Score(int _min, int _max) {
