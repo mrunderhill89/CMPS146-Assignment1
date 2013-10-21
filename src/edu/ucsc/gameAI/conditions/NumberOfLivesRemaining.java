@@ -17,7 +17,9 @@ public class NumberOfLivesRemaining implements ICondition {
 	int max;
 	
 	public NumberOfLivesRemaining(Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
 	
 	public NumberOfLivesRemaining(int _min) {

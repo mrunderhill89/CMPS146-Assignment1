@@ -14,6 +14,7 @@ public class IsPowerPillStillAvailable implements ICondition {
 
 	int pillIndex;
 	Game game;
+	
 	public IsPowerPillStillAvailable(Game _game, int _pillIndex) {
 		game = _game;
 		pillIndex = _pillIndex;

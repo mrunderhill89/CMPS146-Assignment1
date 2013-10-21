@@ -16,7 +16,8 @@ public class LevelCount implements ICondition {
 	int level;	
 	
 	public LevelCount(Game _game, int _level) {
-		
+		game = _game;
+		level = _level;
 	}
 
 	public LevelCount(int _level) {

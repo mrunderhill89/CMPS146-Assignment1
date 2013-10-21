@@ -17,7 +17,9 @@ public class TimeOfLastGlobalReversal implements ICondition {
 	int max;
 	
 	public TimeOfLastGlobalReversal(Game _game, int _min, int _max) {
-		
+		game = _game;
+		min = _min;
+		max = _max;
 	}
 	
 	public TimeOfLastGlobalReversal(int _min, int _max) {
