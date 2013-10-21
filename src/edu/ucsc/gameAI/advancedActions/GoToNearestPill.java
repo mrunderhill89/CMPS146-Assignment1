@@ -5,10 +5,10 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 
-public class GoToNearestPowerPill implements IAction {
+public class GoToNearestPill implements IAction {
 	protected MOVE move;
 	
-	public GoToNearestPowerPill(){
+	public GoToNearestPill(){
 		move = MOVE.NEUTRAL;
 	}
 	@Override
@@ -23,10 +23,10 @@ public class GoToNearestPowerPill implements IAction {
 
 	@Override
 	public void doAction(Game game) {
-		int numPills = game.getNumberOfActivePowerPills();
+		int numPills = game.getNumberOfActivePills();
 		if (numPills > 0){
 			int pacman = game.getPacmanCurrentNodeIndex();
-			int[] indices = game.getActivePowerPillsIndices();
+			int[] indices = game.getActivePillsIndices();
 			int closest = 0;
 			double dist;
 			double cdist = -1;

@@ -3,10 +3,12 @@ package pacman.entries.pacman;
 import java.util.ArrayList;
 
 import edu.ucsc.gameAI.*;
+import edu.ucsc.gameAI.advancedActions.*;
 import edu.ucsc.gameAI.conditions.*;
 import edu.ucsc.gameAI.hfsm.HFSM;
 import edu.ucsc.gameAI.hfsm.HTransition;
 import pacman.controllers.Controller;
+import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
@@ -30,7 +32,7 @@ public class MyPacMan extends Controller<MOVE>
 		//Find the shortest path to the nearest pill
 		HFSM gather = new HFSM("gather", root);
 		gather.setEntryAction(new ConsolePrintAction("begin gather state"));
-		gather.setAction(new GoRightAction());
+		gather.setAction(new GoToNearestPill());
 		
 		//There is a ghost in Pac-Man's way to the next pill. Try to get him out of the way.
 		HFSM lure = new HFSM("lure", root);
@@ -45,10 +47,22 @@ public class MyPacMan extends Controller<MOVE>
 		//Pac-Man has just eaten a power pill. Eat all the ghosts!
 		HFSM rampage = new HFSM("rampage", root);
 		rampage.setEntryAction(new ConsolePrintAction("begin rampage state"));
-		rampage.setAction(new GoDownAction());
+		rampage.setAction(new GoToNearestEdibleGhost());
 		
-		HTransition onPillEatenL = new HTransition(gather, lure, new PillWasEaten());
-		HTransition onPillEatenR = new HTransition(lure, gather, new PillWasEaten());
+		HTransition toRampage = new HTransition(gather, rampage, new PowerPillWasEaten());
+		HTransition fromRampage = new HTransition(rampage, gather, 
+				new NotCondition(
+				new AndCondition(
+						new AndCondition(
+								new IsEdible(GHOST.INKY),
+								new IsEdible(GHOST.BLINKY)), 
+						new AndCondition(
+								new IsEdible(GHOST.PINKY),
+								new IsEdible(GHOST.SUE)
+								)
+						)
+				)
+		);
 	}
 	
 	protected void generateTrees(){
