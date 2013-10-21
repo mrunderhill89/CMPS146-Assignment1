@@ -15,7 +15,7 @@ public class PacmanWasEaten implements ICondition {
 	Game game;
 	
 	public PacmanWasEaten(Game _game) {
-		
+		game = _game;
 	}
 	
 	public PacmanWasEaten() {
