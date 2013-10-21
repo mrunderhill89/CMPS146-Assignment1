@@ -19,7 +19,10 @@ public class LairTime implements ICondition {
 	int max;
 
 	public LairTime(Game _game, GHOST _ghost, int _min, int _max) {
-		
+		game = _game;
+		ghost = _ghost;
+		min = _min;
+		max = _max;
 	}
 	
 	public LairTime(GHOST _ghost, int _min, int _max){
