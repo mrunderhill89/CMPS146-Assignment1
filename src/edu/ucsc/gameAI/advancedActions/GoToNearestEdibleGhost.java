@@ -1,14 +1,15 @@
 package edu.ucsc.gameAI.advancedActions;
 
 import pacman.game.Constants.DM;
+import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 
-public class GoToNearestPowerPill implements IAction {
+public class GoToNearestEdibleGhost implements IAction {
 	protected MOVE move;
 	
-	public GoToNearestPowerPill(){
+	public GoToNearestEdibleGhost(){
 		move = MOVE.NEUTRAL;
 	}
 	@Override
@@ -26,18 +27,19 @@ public class GoToNearestPowerPill implements IAction {
 		int numPills = game.getNumberOfActivePowerPills();
 		if (numPills > 0){
 			int pacman = game.getPacmanCurrentNodeIndex();
-			int[] indices = game.getActivePowerPillsIndices();
 			int closest = 0;
 			double dist;
 			double cdist = -1;
-			for (int index: indices){
+			for (GHOST ghost: GHOST.values()){
+				int index = game.getGhostCurrentNodeIndex(ghost);
 				dist = game.getDistance(pacman, index, DM.PATH);
-				if (cdist < 0 || cdist > dist){
+				if (game.isGhostEdible(ghost) && (cdist < 0 || cdist > dist)){
 					closest = index;
 					cdist = dist;
 				}
 			}
-			move = game.getNextMoveTowardsTarget(pacman, closest, DM.PATH);
+			if (cdist > 0)
+				move = game.getNextMoveTowardsTarget(pacman, closest, DM.PATH);
 		}
 	}
 	@Override
