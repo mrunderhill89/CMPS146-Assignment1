@@ -18,7 +18,9 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	{
 		myMoves.clear();
 		
-		//Place your game logic here to play the game as the ghosts
+		for (GHOST ghost : GHOST.values()) {
+			myMoves.put(ghost, MOVE.DOWN);
+		}
 		
 		return myMoves;
 	}
