@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
-import edu.ucsc.gameAI.fsm.ITransition;
+import edu.ucsc.gameAI.hfsm.IHTransition;
 
 public class HState implements IHState {
 	IAction onEntry;

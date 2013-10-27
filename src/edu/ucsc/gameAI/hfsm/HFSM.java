@@ -2,7 +2,6 @@ package edu.ucsc.gameAI.hfsm;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;

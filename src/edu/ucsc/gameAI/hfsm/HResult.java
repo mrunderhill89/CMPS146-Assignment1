@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.ucsc.gameAI.IAction;
-import edu.ucsc.gameAI.fsm.ITransition;
+import edu.ucsc.gameAI.hfsm.IHTransition;
 
 public class HResult implements IResult {
 	public ArrayList<IAction> actions;

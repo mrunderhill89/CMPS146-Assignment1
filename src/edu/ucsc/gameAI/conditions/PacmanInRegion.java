@@ -28,7 +28,7 @@ public class PacmanInRegion implements ICondition {
 		xMin = Math.min(x1, x2);
 		xMax = Math.max(x1, x2);
 		yMin = Math.min(y1, y2);
-		yMax = Math.min(y1, y2);
+		yMax = Math.max(y1, y2);
 	}
 	
 	@Override

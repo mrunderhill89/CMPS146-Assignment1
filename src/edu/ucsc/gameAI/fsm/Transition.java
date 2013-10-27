@@ -5,40 +5,45 @@ import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
 
 public class Transition implements ITransition {
-
+	protected IState target;
+	protected IAction action;
+	protected ICondition condition;
+	
+	public Transition(){
+		target = null;
+		action = null;
+		condition = null;
+	}
+	
 	@Override
 	public IState getTargetState() {
-		// TODO Auto-generated method stub
-		return null;
+		return target;
 	}
 
 	@Override
 	public void setTargetState(IState targetState) {
-		// TODO Auto-generated method stub
-
+		this.target = targetState;
 	}
 
 	@Override
 	public IAction getAction() {
-		// TODO Auto-generated method stub
-		return null;
+		return action;
 	}
 
 	@Override
 	public void setAction(IAction action) {
-		// TODO Auto-generated method stub
-
+		this.action = action;
 	}
 
 	@Override
 	public void setCondition(ICondition condition) {
-		// TODO Auto-generated method stub
-
+		this.condition = condition;
 	}
 
 	@Override
 	public boolean isTriggered(Game game) {
-		// TODO Auto-generated method stub
+		if (condition != null)
+			return condition.test(game);
 		return false;
 	}
 

@@ -22,7 +22,7 @@ public class PillInRegion implements ICondition {
 		xMin = Math.min(x1, x2);
 		xMax = Math.max(x1, x2);
 		yMin = Math.min(y1, y2);
-		yMax = Math.min(y1, y2);
+		yMax = Math.max(y1, y2);
 	}
 	
 	public PillInRegion(int x1, int y1, int x2, int y2) {

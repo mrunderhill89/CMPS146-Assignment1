@@ -289,7 +289,7 @@ public class Evaluator
 		int pacx = game.getNodeXCood(ipac);
 		int pacy = game.getNodeYCood(ipac);
 		if (!(new PacmanInRegion(pacx-1,pacy-1,pacx+1,pacy+1).test(game)))
-			System.out.println("PacmanLastMove failed");
+			System.out.println("PacmanInRegion failed");
 		
 		// Decision Tree
 		BinaryDecision root = new BinaryDecision();
