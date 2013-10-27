@@ -22,11 +22,11 @@ public class GhostInRegion implements ICondition {
 		xMin = Math.min(x1, x2);
 		xMax = Math.max(x1, x2);
 		yMin = Math.min(y1, y2);
-		yMax = Math.min(y1, y2);
+		yMax = Math.max(y1, y2);
 	}
 	
 	public GhostInRegion(int x1, int y1, int x2, int y2) {
-		this(null, x1, x2, y1, y2);
+		this(null, x1, y1, x2, y2);
 	}
 	
 	@Override
@@ -37,15 +37,17 @@ public class GhostInRegion implements ICondition {
 	
 	@Override
 	public boolean test() {
+		int x,y;
 		for (GHOST g : GHOST.values()){
 			int p = game.getGhostCurrentNodeIndex(g);
-			int x = game.getNodeXCood(p);
+			x = game.getNodeXCood(p);
+			y = game.getNodeYCood(p);
 			if (x >= xMin && x <= xMax){
-				int y = game.getNodeYCood(p);
-				if (y >= yMin && y <= yMax)
+				if (y >= yMin && y <= yMax){
 					return true;
+				}
 			}
-		}
+		}		
 		return false;
 	}
 

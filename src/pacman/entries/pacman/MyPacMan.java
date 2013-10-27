@@ -39,6 +39,8 @@ public class MyPacMan extends Controller<MOVE>
 		lure.setEntryAction(new ConsolePrintAction("begin lure state"));
 		lure.setAction(new GoLeftAction());
 		
+		HTransition gatherToLure(gather, lure, new GhostBetweenPill());
+		
 		//There is a ghost following Pac-Man. Try to shake it off.
 		HFSM retreat = new HFSM("retreat", root);
 		retreat.setEntryAction(new ConsolePrintAction("begin retreat state"));
@@ -49,16 +51,31 @@ public class MyPacMan extends Controller<MOVE>
 		rampage.setEntryAction(new ConsolePrintAction("begin rampage state"));
 		rampage.setAction(new GoToNearestEdibleGhost());
 		
+		@SuppressWarnings("unused")
 		HTransition toRampage = new HTransition(gather, rampage, new PowerPillWasEaten());
+		@SuppressWarnings("unused")
 		HTransition fromRampage = new HTransition(rampage, gather, 
 				new NotCondition(
 				new AndCondition(
 						new AndCondition(
-								new IsEdible(GHOST.INKY),
-								new IsEdible(GHOST.BLINKY)), 
+								new OrCondition(
+										new IsEdible(GHOST.INKY),
+										new LairTime(GHOST.INKY, 1, 60)
+										),
+								new OrCondition(
+										new IsEdible(GHOST.BLINKY),
+										new LairTime(GHOST.BLINKY, 1, 60)
+										)
+								), 
 						new AndCondition(
-								new IsEdible(GHOST.PINKY),
-								new IsEdible(GHOST.SUE)
+								new OrCondition(
+										new IsEdible(GHOST.PINKY),
+										new LairTime(GHOST.PINKY, 1, 60)
+										),
+								new OrCondition(
+										new IsEdible(GHOST.SUE),
+										new LairTime(GHOST.SUE, 1, 60)
+										)
 								)
 						)
 				)

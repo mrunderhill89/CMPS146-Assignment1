@@ -59,5 +59,4 @@ public class State implements IState {
 		transitions.clear();
 		transitions.addAll(trans);
 	}
-
 }

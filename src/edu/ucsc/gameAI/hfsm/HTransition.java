@@ -3,8 +3,7 @@ package edu.ucsc.gameAI.hfsm;
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
-import edu.ucsc.gameAI.fsm.IState;
-import edu.ucsc.gameAI.hfsm2.HFSMFull;
+import edu.ucsc.gameAI.hfsm.IHState;
 
 public class HTransition implements IHTransition {
 	IHState target;
