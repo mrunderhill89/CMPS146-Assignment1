@@ -1,4 +1,4 @@
-package edu.ucsc.gameAI.conditions;
+package edu.ucsc.gameAI.customConditions;
 
 import pacman.game.Game;
 import edu.ucsc.gameAI.ICondition;

@@ -3,8 +3,9 @@ package pacman.entries.pacman;
 import java.util.ArrayList;
 
 import edu.ucsc.gameAI.*;
-import edu.ucsc.gameAI.advancedActions.*;
 import edu.ucsc.gameAI.conditions.*;
+import edu.ucsc.gameAI.customActions.*;
+import edu.ucsc.gameAI.customConditions.*;
 import edu.ucsc.gameAI.hfsm.HFSM;
 import edu.ucsc.gameAI.hfsm.HTransition;
 import pacman.controllers.Controller;
@@ -29,57 +30,40 @@ public class MyPacMan extends Controller<MOVE>
 	protected void generateFSM(){
 		root = new HFSM("root");
 		
+		//Collection of all of Pac-Man's moves when not dealing with ghosts.
+		HFSM active = new HFSM("active", root);
+		
+		//Allows Pac-Man to chase down the nearest pills
+		HFSM gather = new HFSM("gather", active);
 		//Find the shortest path to the nearest pill
-		HFSM gather = new HFSM("gather", root);
-		gather.setEntryAction(new ConsolePrintAction("begin gather state"));
-		gather.setAction(new GoToNearestPill());
+		HFSM chasePill = new HFSM("chasePill", gather);
+		chasePill.setEntryAction(new ConsolePrintAction("begin gather state"));
+		chasePill.setAction(new GoToNearestPill());
 		
-		//There is a ghost in Pac-Man's way to the next pill. Try to get him out of the way.
-		HFSM lure = new HFSM("lure", root);
-		lure.setEntryAction(new ConsolePrintAction("begin lure state"));
-		lure.setAction(new GoLeftAction());
+		//Stand next to the nearest power pill and wait for a ghost to come by.
+		HFSM campPowerPill = new HFSM("campPowerPill", gather);
 		
-		HTransition gatherToLure(gather, lure, new GhostBetweenPill());
-		
-		//There is a ghost following Pac-Man. Try to shake it off.
-		HFSM retreat = new HFSM("retreat", root);
-		retreat.setEntryAction(new ConsolePrintAction("begin retreat state"));
-		retreat.setAction(new GoUpAction());
-		
-		//Pac-Man has just eaten a power pill. Eat all the ghosts!
-		HFSM rampage = new HFSM("rampage", root);
+		HFSM rampage = new HFSM("rampage", active);
 		rampage.setEntryAction(new ConsolePrintAction("begin rampage state"));
 		rampage.setAction(new GoToNearestEdibleGhost());
+
+//		@SuppressWarnings("unused")
+//		HTransition fromRampage = new HTransition(chasePill, rampage, new EdibleGhostProximity(20));
+		@SuppressWarnings("unused")
+		HTransition fromRampage = new HTransition(rampage, gather, new StopRampage());
+
+		HFSM reactive = new HFSM("reactive", root);
 		
-		@SuppressWarnings("unused")
-		HTransition toRampage = new HTransition(gather, rampage, new PowerPillWasEaten());
-		@SuppressWarnings("unused")
-		HTransition fromRampage = new HTransition(rampage, gather, 
-				new NotCondition(
-				new AndCondition(
-						new AndCondition(
-								new OrCondition(
-										new IsEdible(GHOST.INKY),
-										new LairTime(GHOST.INKY, 1, 60)
-										),
-								new OrCondition(
-										new IsEdible(GHOST.BLINKY),
-										new LairTime(GHOST.BLINKY, 1, 60)
-										)
-								), 
-						new AndCondition(
-								new OrCondition(
-										new IsEdible(GHOST.PINKY),
-										new LairTime(GHOST.PINKY, 1, 60)
-										),
-								new OrCondition(
-										new IsEdible(GHOST.SUE),
-										new LairTime(GHOST.SUE, 1, 60)
-										)
-								)
-						)
-				)
-		);
+		HFSM avoid = new HFSM("avoid", reactive);
+		
+		HFSM hide = new HFSM("hide", reactive);
+		
+		HFSM dodge = new HFSM("dodge", reactive);
+		
+		HFSM race = new HFSM("race", reactive);
+		
+		HFSM chasePowerPill = new HFSM("chasePowerPill", reactive);
+		chasePill.setAction(new GoToNearestPowerPill());
 	}
 	
 	protected void generateTrees(){

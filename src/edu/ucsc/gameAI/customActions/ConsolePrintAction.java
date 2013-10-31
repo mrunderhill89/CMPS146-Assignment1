@@ -1,5 +1,6 @@
-package edu.ucsc.gameAI;
+package edu.ucsc.gameAI.customActions;
 
+import edu.ucsc.gameAI.IAction;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 

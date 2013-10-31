@@ -1,6 +1,6 @@
 package pacman.entries.ghosts;
 
-import java.util.Dictionary;
+//import java.util.Dictionary;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
