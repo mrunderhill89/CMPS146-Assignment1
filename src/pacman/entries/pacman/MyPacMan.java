@@ -39,7 +39,7 @@ public class MyPacMan extends Controller<MOVE>
 		lure.setEntryAction(new ConsolePrintAction("begin lure state"));
 		lure.setAction(new GoLeftAction());
 		
-		HTransition gatherToLure(gather, lure, new GhostBetweenPill());
+		HTransition gatherToLure = new HTransition(gather, lure, new GhostBetweenPill());
 		
 		//There is a ghost following Pac-Man. Try to shake it off.
 		HFSM retreat = new HFSM("retreat", root);
