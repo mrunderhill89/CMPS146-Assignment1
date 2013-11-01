@@ -99,7 +99,6 @@ public class HFSM implements IHFSM {
 				}
 				//If we've found one, load it into the result struct.
 				if (triggered != null){
-					System.out.println("Transition:"+name+"->"+triggered.getTargetState().getName());
 					result.setTransition(triggered);
 					result.setLevel(triggered.getLevel());
 				} else {

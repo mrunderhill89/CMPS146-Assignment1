@@ -19,7 +19,10 @@ public class EvadeGhosts implements IAction {
 	Random r = new Random();
 	protected Game game = null;
 	//If there's a ghost this close, ignore the others.
-	double minRange = 1.0;
+	double minRange = 5.0;
+	//If the ghost is out of commission for more than this, ignore it.
+	double maxTime = 10.0;
+	
 	public class MoveRank implements Comparable<MoveRank>
 	{
 		MOVE move;
@@ -54,13 +57,17 @@ public class EvadeGhosts implements IAction {
 		int pacmanTile = game.getPacmanCurrentNodeIndex();
 		EnumMap<GHOST,Integer> ghostTiles = new EnumMap<GHOST, Integer>(GHOST.class);
 		EnumMap<GHOST,Double> ghostDists = new EnumMap<GHOST, Double>(GHOST.class);
+		EnumMap<GHOST,Integer> ghostThreatTime = new EnumMap<GHOST, Integer>(GHOST.class);
 		for (GHOST g: GHOST.values()){
      		ghostTiles.put(g, game.getGhostCurrentNodeIndex(g));
 			ghostDists.put(g, game.getDistance(pacmanTile, ghostTiles.get(g), DM.PATH));
+			ghostThreatTime.put(g, Math.max(game.getGhostEdibleTime(g), game.getGhostLairTime(g)));
 			//If there's a ghost this close, don't bother averaging.
-			if (ghostDists.get(g) < minRange){
-				move = game.getNextMoveAwayFromTarget(pacmanTile, ghostTiles.get(g), DM.PATH);
-				return move;
+			if (ghostThreatTime.get(g) < maxTime){
+				if (ghostDists.get(g) < minRange){
+					move = game.getNextMoveAwayFromTarget(pacmanTile, ghostTiles.get(g), DM.PATH);
+					return move;
+				}
 			}
 		}
 		PriorityQueue<MoveRank> ranks = new PriorityQueue<MoveRank>();
@@ -70,7 +77,9 @@ public class EvadeGhosts implements IAction {
 				MoveRank rank = new MoveRank();
 				rank.move = m;
 				for (GHOST g: GHOST.values()){
-					rank.value += game.getDistance(ghostTiles.get(g), nT, DM.PATH)/ghostDists.get(g);
+					if (ghostThreatTime.get(g) < maxTime){
+						rank.value += game.getDistance(ghostTiles.get(g), nT, DM.PATH)/ghostDists.get(g);
+					}
 				}
 				ranks.add(rank);
 			}
