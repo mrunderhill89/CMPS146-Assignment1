@@ -57,16 +57,16 @@ public class MyPacMan extends Controller<MOVE>
 		
 		//Collection of all of Pac-Man's moves when dealing with ghosts
 		HFSM reactive = new HFSM("reactive", root);
-		reactive.setAction(new EvadeGhosts());
 		HFSM avoid = new HFSM("avoid", reactive);
+		avoid.setAction(new ConsolePrintAction("Evading...", new EvadeGhosts()));
 		HFSM hide = new HFSM("hide", reactive);
 		HFSM dodge = new HFSM("dodge", reactive);
 		HFSM race = new HFSM("race", reactive);
+		HFSM findWrapAround = new HFSM("findWrapAround", reactive);
+		HFSM throughWrapAround = new HFSM("findWrapAround", reactive);
 		HFSM chasePowerPill = new HFSM("chasePowerPill", reactive);
-		
-		HTransition activeToReactive = new HTransition(active, reactive, new GhostNearby(20.0,10));
+		HTransition activeToReactive = new HTransition(active, reactive, new GhostNearby(25.0,10));
 		HTransition reactiveToActive = new HTransition(reactive, active, new NotCondition(new GhostNearby(40.0,10)), null, true);
-		
 		chasePowerPill.setAction(new GoToNearestPowerPill());		
 	}
 	
