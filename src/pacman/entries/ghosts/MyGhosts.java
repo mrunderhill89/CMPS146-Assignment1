@@ -31,24 +31,14 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	private Coords cornerRegion2;
 	private Coords cornerRegion3;
 	private Coords cornerRegion4;
-	PatrolRegion patrolRegion1;
-	PatrolRegion patrolRegion2;
-	PatrolRegion patrolRegion3;
-	PatrolRegion patrolRegion4;
-	private PatrolRegion[] regions;
+	private PatrolRegion patrolRegion1;
+	private PatrolRegion patrolRegion2;
+	private PatrolRegion patrolRegion3;
+	private PatrolRegion patrolRegion4;
 	
-	// roles
-	// -1 = other
-	// 0 = chase pac man
-	// [a][b] = patrol region [a] at point [b], e.g. 12 = patrol region 1 at the third patrol point
-	private Map<GHOST, Integer> ghostRoles = new HashMap<GHOST, Integer>();
+//	private static final double PROX_THRESHOLD = 
 	
 	public MyGhosts() {
-		ghostRoles.put(GHOST.BLINKY, 0);
-		ghostRoles.put(GHOST.PINKY, 0);
-		ghostRoles.put(GHOST.INKY, 0);
-		ghostRoles.put(GHOST.SUE, 0);
-		
 		mazeSize = new Coords(108, 120);
 		center = new Coords(mazeSize.x / 2, mazeSize.y / 2);
 		cornerRegion1 = new Coords(center.x / 2, center.y / 2);
@@ -182,7 +172,11 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		
 		for (GHOST ghost : GHOST.values()) {
 			
-			Coords patrolPoint = patrolRegion.getPatrolPoint(ghost);
+			Coords patrolPoint;
+			if (patrolRegion != null)
+				patrolPoint = patrolRegion.getPatrolPoint(ghost);
+			else
+				patrolPoint = null;
 			
 			BinaryDecision tree = ghostDecisionTrees.get(ghost); 
 			IAction action = tree.makeDecision(game);
