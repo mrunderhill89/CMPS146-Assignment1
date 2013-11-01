@@ -27,6 +27,7 @@ public class MyPacMan extends Controller<MOVE>
 		generateFSM();
 	}
 
+	@SuppressWarnings("unused")
 	protected void generateFSM(){
 		root = new HFSM("root");
 		
@@ -42,28 +43,31 @@ public class MyPacMan extends Controller<MOVE>
 		
 		//Stand next to the nearest power pill and wait for a ghost to come by.
 		HFSM campPowerPill = new HFSM("campPowerPill", gather);
+		campPowerPill.setAction(new GoBackAndForth());
+		campPowerPill.setEntryAction(new ConsolePrintAction("begin camping state"));
+		HTransition pillToCamp = new HTransition(chasePill, campPowerPill, new CampCondition(10.0, 5.0, 1.0));
+		HTransition campGhostClose = new HTransition(campPowerPill, chasePill, new GhostNearby(10.0));
+		HTransition campTimeUp = new HTransition(campPowerPill, chasePill, new Timer(30));
 		
 		HFSM rampage = new HFSM("rampage", active);
 		rampage.setEntryAction(new ConsolePrintAction("begin rampage state"));
 		rampage.setAction(new GoToNearestEdibleGhost());
-
-//		@SuppressWarnings("unused")
-//		HTransition fromRampage = new HTransition(chasePill, rampage, new EdibleGhostProximity(20));
-		@SuppressWarnings("unused")
-		HTransition fromRampage = new HTransition(rampage, gather, new StopRampage());
-
+		HTransition startRampage = new HTransition(gather, rampage, new EdibleGhostInRange(30,20));
+		HTransition endRampageEarly = new HTransition(rampage, gather, new NotCondition(new EdibleGhostInRange(30,20)));
+		
+		//Collection of all of Pac-Man's moves when dealing with ghosts
 		HFSM reactive = new HFSM("reactive", root);
-		
+		reactive.setAction(new EvadeGhosts());
 		HFSM avoid = new HFSM("avoid", reactive);
-		
 		HFSM hide = new HFSM("hide", reactive);
-		
 		HFSM dodge = new HFSM("dodge", reactive);
-		
 		HFSM race = new HFSM("race", reactive);
-		
 		HFSM chasePowerPill = new HFSM("chasePowerPill", reactive);
-		chasePill.setAction(new GoToNearestPowerPill());
+		
+		HTransition activeToReactive = new HTransition(active, reactive, new GhostNearby(20.0,10));
+		HTransition reactiveToActive = new HTransition(reactive, active, new NotCondition(new GhostNearby(40.0,10)), null, true);
+		
+		chasePowerPill.setAction(new GoToNearestPowerPill());		
 	}
 	
 	protected void generateTrees(){
