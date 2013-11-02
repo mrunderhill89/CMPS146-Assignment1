@@ -113,7 +113,9 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		GoToPacman goToPacman = new GoToPacman(ghost);
 		GoAwayFromPacman goAway = new GoAwayFromPacman(ghost);
 		GoToNearestJunction goToNode = new GoToNearestJunction(ghost);
+		GoToNearestPowerPillGhost goToPP = new GoToNearestPowerPillGhost(ghost); 
 		
+		PowerPillsLeft pp2LeftCon = new PowerPillsLeft(2);
 		IsPacmanCloseToPowerPill aboutToEatCon = new IsPacmanCloseToPowerPill(); 
 		IsCloseToPacman isCloseCon = new IsCloseToPacman(ghost);
 		IsFarFromPacman isFarCon = new IsFarFromPacman(ghost);
@@ -121,7 +123,8 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		IsPacmanChasing isChasingCon = new IsPacmanChasing(ghost);
 		IsEdible edibleCon = new IsEdible(ghost);
 		
-		BinaryDecision isClose = makeSimpleTree(isCloseCon, goToPacman, goToCoords);
+		BinaryDecision pp2Left = makeSimpleTree(pp2LeftCon, goToPP, goToCoords);
+		BinaryDecision isClose = makeSimpleTree(isCloseCon, goToPacman, pp2Left);
 		BinaryDecision isFar = makeSimpleTree(isFarCon, goToPacman, goAway);
 		BinaryDecision isPointNull = makeSimpleTree(isPointNullCon, goToPacman, isClose);
 		BinaryDecision isChasing = makeSimpleTree(isChasingCon, goToNode, isFar);

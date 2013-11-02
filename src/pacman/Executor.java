@@ -71,10 +71,10 @@ public class Executor
 		boolean bRunUnitTests=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 		
-//		exec.runExperiment(new StarterPacMan(), new MyGhosts(), 1000);
-//		exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
-		exec.runExperiment(new MyPacMan(),new StarterGhosts(),numTrials);
-		exec.runGameTimed(new MyPacMan(),new StarterGhosts(),visual,bRunUnitTests);
+		exec.runExperiment(new StarterPacMan(), new MyGhosts(), 100);
+		exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+//		exec.runExperiment(new MyPacMan(),new StarterGhosts(),numTrials);
+//		exec.runGameTimed(new MyPacMan(),new StarterGhosts(),visual,bRunUnitTests);
 
 		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
 		
