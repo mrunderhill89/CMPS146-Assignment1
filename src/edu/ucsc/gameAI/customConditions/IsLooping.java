@@ -1,9 +1,6 @@
 package edu.ucsc.gameAI.customConditions;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 import pacman.entries.pacman.MyPacMan;
 import pacman.game.Game;

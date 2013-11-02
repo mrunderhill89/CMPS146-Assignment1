@@ -1,18 +1,14 @@
 package edu.ucsc.gameAI.customActions;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Random;
-import java.util.concurrent.PriorityBlockingQueue;
 
 import pacman.game.Constants.DM;
 import pacman.game.Game;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import edu.ucsc.gameAI.IAction;
-import edu.ucsc.gameAI.customConditions.IsPacManStuck;
 
 public class EvadeGhosts implements IAction {
 	MOVE move = MOVE.NEUTRAL;

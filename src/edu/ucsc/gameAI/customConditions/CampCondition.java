@@ -1,7 +1,6 @@
 package edu.ucsc.gameAI.customConditions;
 
 import pacman.game.Game;
-import pacman.game.Constants.GHOST;
 import edu.ucsc.gameAI.ICondition;
 
 public class CampCondition implements ICondition {
