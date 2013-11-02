@@ -1,17 +1,16 @@
 package pacman.entries.ghosts;
 
-import java.util.Dictionary;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import edu.ucsc.gameAI.*;
+import edu.ucsc.gameAI.advancedActions.*;
 import edu.ucsc.gameAI.conditions.*;
 import edu.ucsc.gameAI.decisionTrees.binary.BinaryDecision;
 import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 import pacman.controllers.Controller;
-import pacman.game.Constants;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
@@ -101,12 +100,37 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		return tree;
 	}
 	
-	private BinaryDecision makeSimpleTree(ICondition con, IBinaryNode act1, IBinaryNode act2) {
+	private BinaryDecision makeSimpleTree(ICondition con, IBinaryNode trueNode, IBinaryNode falseNode) {
 		BinaryDecision tree = new BinaryDecision();
 		tree.setCondition(con);
-		tree.setTrueBranch(act1);
-		tree.setFalseBranch(act2);
+		tree.setTrueBranch(trueNode);
+		tree.setFalseBranch(falseNode);
 		return tree;
+	}
+	
+	private BinaryDecision makeRuntimeTree(Game game, GHOST ghost, Coords patrolPoint) {
+		GoToCoords goToCoords = new GoToCoords(ghost, patrolPoint);
+		GoToPacman goToPacman = new GoToPacman(ghost);
+		GoAwayFromPacman goAway = new GoAwayFromPacman(ghost);
+		GoToNearestJunction goToNode = new GoToNearestJunction(ghost);
+		
+		IsPacmanCloseToPowerPill aboutToEatCon = new IsPacmanCloseToPowerPill(); 
+		IsCloseToPacman isCloseCon = new IsCloseToPacman(ghost);
+		IsFarFromPacman isFarCon = new IsFarFromPacman(ghost);
+		IsCoordNull isPointNullCon = new IsCoordNull(patrolPoint);
+		IsPacmanChasing isChasingCon = new IsPacmanChasing(ghost);
+		IsEdible edibleCon = new IsEdible(ghost);
+		
+		BinaryDecision isClose = makeSimpleTree(isCloseCon, goToPacman, goToCoords);
+		BinaryDecision isFar = makeSimpleTree(isFarCon, goToPacman, goAway);
+		BinaryDecision isPointNull = makeSimpleTree(isPointNullCon, goToPacman, isClose);
+		BinaryDecision isChasing = makeSimpleTree(isChasingCon, goToNode, isFar);
+		BinaryDecision isClose2 = makeSimpleTree(isCloseCon, isPointNull, goAway);
+		BinaryDecision aboutToEat = makeSimpleTree(aboutToEatCon, isClose2, isPointNull);
+		BinaryDecision isEdible = makeSimpleTree(edibleCon, isChasing, aboutToEat);
+//		BinaryDecision isEdible = makeSimpleTree(edibleCon, isChasing, goToPacman);
+		
+		return isEdible;
 	}
 	
 	private GHOST[] sortGhosts(Game game) {
@@ -127,14 +151,20 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	}
 	
 	private PatrolRegion getPatrolRegion(Game game) {
-		PacmanInRegion region1Con = new PacmanInRegion(game, 0, 0, cornerRegion1.x, cornerRegion1.y);
-		PacmanInRegion region2Con = new PacmanInRegion(game, cornerRegion2.x, cornerRegion2.y, mazeSize.x, 0);
-		PacmanInRegion region3Con = new PacmanInRegion(game, 0, mazeSize.y, cornerRegion3.x, cornerRegion3.y);
-		PacmanInRegion region4Con = new PacmanInRegion(game, mazeSize.x, mazeSize.y, cornerRegion1.x, cornerRegion1.y);
+//		PacmanInRegion region1Con = new PacmanInRegion(game, 0, 0, cornerRegion1.x, cornerRegion1.y);
+//		PacmanInRegion region2Con = new PacmanInRegion(game, cornerRegion2.x, cornerRegion2.y, mazeSize.x, 0);
+//		PacmanInRegion region3Con = new PacmanInRegion(game, 0, mazeSize.y, cornerRegion3.x, cornerRegion3.y);
+//		PacmanInRegion region4Con = new PacmanInRegion(game, mazeSize.x, mazeSize.y, cornerRegion1.x, cornerRegion1.y);
+
+		PacmanInRegion region1Con = new PacmanInRegion(game, 0, 0, center.x, center.y);
+		PacmanInRegion region2Con = new PacmanInRegion(game, center.x, center.y, mazeSize.x, 0);
+		PacmanInRegion region3Con = new PacmanInRegion(game, 0, mazeSize.y, center.x, center.y);
+		PacmanInRegion region4Con = new PacmanInRegion(game, mazeSize.x, mazeSize.y, center.x, center.y);
+
 		
 		PatrolRegion targetRegion = null;
 		
-		// copying region so that modifying the target one won't modify the predfined ones
+		// copying region so that modifying the target one won't modify the predefined ones
 		if (region1Con.test())
 			targetRegion = new PatrolRegion(patrolRegion1);
 		else if (region2Con.test())
@@ -178,9 +208,14 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 			else
 				patrolPoint = null;
 			
-			BinaryDecision tree = ghostDecisionTrees.get(ghost); 
+			BinaryDecision tree = makeRuntimeTree(game, ghost, patrolPoint);
 			IAction action = tree.makeDecision(game);
+			action.doAction(game);
 			myMoves.put(ghost, action.getMove());
+			
+//			BinaryDecision tree = ghostDecisionTrees.get(ghost); 
+//			IAction action = tree.makeDecision(game);
+//			myMoves.put(ghost, action.getMove());
 			
 		}
 		

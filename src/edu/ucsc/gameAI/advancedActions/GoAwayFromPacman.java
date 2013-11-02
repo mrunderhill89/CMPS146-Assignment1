@@ -8,12 +8,13 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
+import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class GoAwayFromPacman implements IAction {
+public class GoAwayFromPacman implements IAction, IBinaryNode {
 
 	protected MOVE move;
 	protected GHOST ghost;
@@ -38,7 +39,7 @@ public class GoAwayFromPacman implements IAction {
 		int gNode = game.getGhostCurrentNodeIndex(ghost);
 		int pNode = game.getPacmanCurrentNodeIndex();
 		
-		move = game.getNextMoveAwayFromTarget(gNode, pNode, game.getGhostLastMoveMade(ghost), DM.PATH);
+		move = game.getNextMoveAwayFromTarget(gNode, pNode, game.getGhostLastMoveMade(ghost), DM.EUCLID);
 
 	}
 
@@ -56,6 +57,15 @@ public class GoAwayFromPacman implements IAction {
 	@Override
 	public MOVE getMove(Game game) {
 		return move;
+	}
+
+	@Override
+	public IAction makeDecision(Game game) {
+		return this;
+	}
+	
+	public IAction makeDecision() {
+		return this;
 	}
 
 }

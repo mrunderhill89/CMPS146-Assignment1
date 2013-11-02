@@ -7,19 +7,19 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
-import pacman.game.internal.Maze;
 import edu.ucsc.gameAI.IAction;
+import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class GoToNearestNode implements IAction {
+public class GoToNearestJunction implements IAction, IBinaryNode {
 
 	protected MOVE move;
 	protected GHOST ghost;
 	
-	public GoToNearestNode(GHOST _ghost) {
+	public GoToNearestJunction(GHOST _ghost) {
 		ghost = _ghost;
 		move = MOVE.NEUTRAL;
 	}
@@ -37,28 +37,30 @@ public class GoToNearestNode implements IAction {
 	@Override
 	public void doAction(Game game) {
 		int gNode = game.getGhostCurrentNodeIndex(ghost);
-		int[] neighbors = game.getNeighbouringNodes(gNode, game.getGhostLastMoveMade(ghost));
+		int[] junctions = game.getJunctionIndices();
 		
-		int targetNode = game.getClosestNodeIndexFromNodeIndex(gNode, neighbors, DM.PATH);
+		int targetNode = game.getClosestNodeIndexFromNodeIndex(gNode, junctions, DM.EUCLID);
+		
 		move = game.getNextMoveTowardsTarget(gNode, targetNode, DM.PATH);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.ucsc.gameAI.IAction#getMove()
-	 */
 	@Override
 	public MOVE getMove() {
-		// TODO Auto-generated method stub
-		return null;
+		return move;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.ucsc.gameAI.IAction#getMove(pacman.game.Game)
-	 */
 	@Override
 	public MOVE getMove(Game game) {
-		// TODO Auto-generated method stub
-		return null;
+		return move;
+	}
+
+	@Override
+	public IAction makeDecision(Game game) {
+		return this;
+	}
+	
+	public IAction makeDecision() {
+		return this;
 	}
 
 }

@@ -11,20 +11,22 @@ import pacman.game.Game;
 import pacman.game.internal.Maze;
 import pacman.game.internal.Node;
 import edu.ucsc.gameAI.IAction;
+import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 
 /**
  * @author Ed Ramirez
  *
  */
-public class GoToCoords implements IAction {
+public class GoToCoords implements IAction, IBinaryNode {
 
 	protected Coords coords;
 	protected MOVE move;
 	protected GHOST ghost;
 	
-	public GoToCoords(GHOST _ghost) {
+	public GoToCoords(GHOST _ghost, Coords _coords) {
 		ghost = _ghost;
 		move = MOVE.NEUTRAL;
+		coords = _coords;
 	}
 	
 	@Override
@@ -36,8 +38,6 @@ public class GoToCoords implements IAction {
 	public void doAction(Game game) {
 		int gNode = game.getGhostCurrentNodeIndex(ghost);
 		Maze maze = game.getCurrentMaze();
-		// maze.graph // need to find the node in this which
-		//				 // is closest to the coords
 		
 		Node node = maze.graph[0];
 		for (Node index : maze.graph) {
@@ -48,7 +48,7 @@ public class GoToCoords implements IAction {
 		}
 		
 		int targetNode = node.nodeIndex;		
-		move = game.getNextMoveTowardsTarget(gNode, targetNode, game.getGhostLastMoveMade(ghost), DM.PATH);
+		move = game.getNextMoveTowardsTarget(gNode, targetNode, game.getGhostLastMoveMade(ghost), DM.EUCLID);
 	}
 	
 	private double distance(int x1, int y1, int x2, int y2) {
@@ -69,8 +69,16 @@ public class GoToCoords implements IAction {
 
 	@Override
 	public MOVE getMove(Game game) {
-		// TODO Auto-generated method stub
 		return move;
+	}
+
+	@Override
+	public IAction makeDecision(Game game) {
+		return this;
+	}
+	
+	public IAction makeDecision() {
+		return this;
 	}
 
 }

@@ -23,8 +23,10 @@ public class PatrolRegion {
 		assignment = new GHOST[points.length];
 		
 		for (int i = 0; i < points.length; i++) {
-			points[i] = new Coords(_region.points[i]);
-			assignment[i] = _region.assignment[i];
+			if (_region.points != null)
+				points[i] = new Coords(_region.points[i]);
+			if (_region.assignment != null)
+				assignment[i] = _region.assignment[i];
 		}
 	}
 	
@@ -40,7 +42,12 @@ public class PatrolRegion {
 	
 	public void assign(GHOST ghost) {
 		if (assignment != null) {
-			assignment[assignment.length] = ghost;
+			for (int i = 0; i < assignment.length; i++) {
+				if ( assignment[i] == null) {
+					assignment[i] = ghost;
+					break;
+				}
+			}
 		}
 		else if (points != null){
 			assignment = new GHOST[points.length];
