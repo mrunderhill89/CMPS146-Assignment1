@@ -19,7 +19,7 @@ public class EvadeGhosts implements IAction {
 	Random r = new Random();
 	protected Game game = null;
 	//If there's a ghost this close, ignore the others.
-	double minRange = 5.0;
+	double minRange = 100.0;
 	//If the ghost is out of commission for more than this, ignore it.
 	double maxTime = 10.0;
 	
@@ -78,7 +78,7 @@ public class EvadeGhosts implements IAction {
 				rank.move = m;
 				for (GHOST g: GHOST.values()){
 					if (ghostThreatTime.get(g) < maxTime){
-						rank.value += game.getDistance(ghostTiles.get(g), nT, DM.PATH)/ghostDists.get(g);
+						rank.value += game.getDistance(ghostTiles.get(g), nT, DM.PATH)/(Math.pow(ghostDists.get(g), 2.0));
 					}
 				}
 				ranks.add(rank);

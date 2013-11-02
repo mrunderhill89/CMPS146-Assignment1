@@ -2,7 +2,6 @@ package pacman.entries.pacman;
 
 import java.util.LinkedList;
 import java.util.ArrayList;
-import java.util.Queue;
 
 import edu.ucsc.gameAI.*;
 import edu.ucsc.gameAI.conditions.*;
@@ -11,7 +10,6 @@ import edu.ucsc.gameAI.customConditions.*;
 import edu.ucsc.gameAI.hfsm.HFSM;
 import edu.ucsc.gameAI.hfsm.HTransition;
 import pacman.controllers.Controller;
-import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
@@ -61,14 +59,14 @@ public class MyPacMan extends Controller<MOVE>
 		HFSM campPowerPill = new HFSM("campPowerPill", gather);
 		campPowerPill.setAction(new GoBackAndForth());
 		HTransition pillToCamp = new HTransition(chasePill, campPowerPill, new CampCondition(10.0, 5.0, 1.0));
-		HTransition campGhostClose = new HTransition(campPowerPill, chasePill, new GhostNearby(10.0));
+		HTransition campGhostClose = new HTransition(campPowerPill, chasePill, new GhostNearby(20.0));
 		HTransition campTimeUp = new HTransition(campPowerPill, chasePill, new Timer(30));
 		
 		//Chase down any convenient edible ghosts as you find them.
 		HFSM rampage = new HFSM("rampage", active);
 		rampage.setAction(new GoToNearestEdibleGhost());
-		HTransition startRampage = new HTransition(gather, rampage, new EdibleGhostInRange(30,20));
-		HTransition endRampageEarly = new HTransition(rampage, gather, new NotCondition(new EdibleGhostInRange(30,20)));
+		HTransition startRampage = new HTransition(gather, rampage, new EdibleGhostInRange(50,20));
+		HTransition endRampageEarly = new HTransition(rampage, gather, new NotCondition(new EdibleGhostInRange(60,20)));
 		
 		//Collection of all of Pac-Man's moves when dealing with ghosts
 		HFSM reactive = new HFSM("reactive", root);
@@ -82,8 +80,8 @@ public class MyPacMan extends Controller<MOVE>
 																		 		), null, true);
 		HTransition reactiveToActive = new HTransition(reactive, active, new NotCondition(new GhostNearby(40.0,10)));
 
-		HTransition avoidToPowerPill = new HTransition(avoid, chasePowerPill, new PowerPillNearby(10.0));
-		HTransition resetPowerPill = new HTransition(chasePowerPill, avoid, new NotCondition(new PowerPillNearby(15.0)));
+		HTransition avoidToPowerPill = new HTransition(avoid, chasePowerPill, new PowerPillNearby(30.0));
+		HTransition resetPowerPill = new HTransition(chasePowerPill, avoid, new NotCondition(new PowerPillNearby(50.0)));
 		
 		HTransition breakLoop = new HTransition(avoid, active, new IsLooping());
 		HTransition resetOnDeath = new HTransition(root, active, new PacmanWasEaten());
