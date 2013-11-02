@@ -23,7 +23,6 @@ import pacman.game.Game;
 public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 {
 	private EnumMap<GHOST, MOVE> myMoves=new EnumMap<GHOST, MOVE>(GHOST.class);
-	private Map<GHOST, BinaryDecision> ghostDecisionTrees = new HashMap<GHOST, BinaryDecision>();
 	private Coords mazeSize;
 	private Coords center;
 	private Coords cornerRegion1;
@@ -69,35 +68,6 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		patrolRegion2 = new PatrolRegion(2, corner2Patrols);
 		patrolRegion3 = new PatrolRegion(3, corner3Patrols);
 		patrolRegion4 = new PatrolRegion(4, corner4Patrols);
-		
-		ghostDecisionTrees.put(GHOST.BLINKY, initBlinky());
-		ghostDecisionTrees.put(GHOST.PINKY, initPinky());
-		ghostDecisionTrees.put(GHOST.INKY, initInky());
-		ghostDecisionTrees.put(GHOST.SUE, initSue());
-	}
-	
-	private BinaryDecision initBlinky() {
-		BinaryDecision tree = new BinaryDecision();
-		tree = makeSimpleTree(new IsEdible(GHOST.BLINKY), new GoUpAction(), new GoRightAction());
-		return tree;
-	}
-	
-	private BinaryDecision initPinky() {
-		BinaryDecision tree = new BinaryDecision();
-		tree = makeSimpleTree(new IsEdible(GHOST.PINKY), new GoRightAction(), new GoDownAction());
-		return tree;
-	}
-	
-	private BinaryDecision initInky() {
-		BinaryDecision tree = new BinaryDecision();
-		tree = makeSimpleTree(new IsEdible(GHOST.INKY), new GoDownAction(), new GoLeftAction());
-		return tree;
-	}
-	
-	private BinaryDecision initSue() {
-		BinaryDecision tree = new BinaryDecision();
-		tree = makeSimpleTree(new IsEdible(GHOST.BLINKY), new GoLeftAction(), new GoUpAction());
-		return tree;
 	}
 	
 	private BinaryDecision makeSimpleTree(ICondition con, IBinaryNode trueNode, IBinaryNode falseNode) {
@@ -154,11 +124,6 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 	}
 	
 	private PatrolRegion getPatrolRegion(Game game) {
-//		PacmanInRegion region1Con = new PacmanInRegion(game, 0, 0, cornerRegion1.x, cornerRegion1.y);
-//		PacmanInRegion region2Con = new PacmanInRegion(game, cornerRegion2.x, cornerRegion2.y, mazeSize.x, 0);
-//		PacmanInRegion region3Con = new PacmanInRegion(game, 0, mazeSize.y, cornerRegion3.x, cornerRegion3.y);
-//		PacmanInRegion region4Con = new PacmanInRegion(game, mazeSize.x, mazeSize.y, cornerRegion1.x, cornerRegion1.y);
-
 		PacmanInRegion region1Con = new PacmanInRegion(game, 0, 0, center.x, center.y);
 		PacmanInRegion region2Con = new PacmanInRegion(game, center.x, center.y, mazeSize.x, 0);
 		PacmanInRegion region3Con = new PacmanInRegion(game, 0, mazeSize.y, center.x, center.y);
@@ -215,10 +180,6 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 			IAction action = tree.makeDecision(game);
 			action.doAction(game);
 			myMoves.put(ghost, action.getMove());
-			
-//			BinaryDecision tree = ghostDecisionTrees.get(ghost); 
-//			IAction action = tree.makeDecision(game);
-//			myMoves.put(ghost, action.getMove());
 			
 		}
 		
