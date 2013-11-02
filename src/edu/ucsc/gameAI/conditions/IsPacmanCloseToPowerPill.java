@@ -14,7 +14,7 @@ import edu.ucsc.gameAI.ICondition;
 public class IsPacmanCloseToPowerPill implements ICondition {
 
 	Game game;
-	double maxDist = 108 / 4;
+	double maxDist = 108 /8;
 	
 	public IsPacmanCloseToPowerPill (Game _game) {
 		game = _game;
