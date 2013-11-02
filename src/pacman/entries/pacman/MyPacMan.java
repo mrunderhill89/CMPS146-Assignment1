@@ -58,15 +58,15 @@ public class MyPacMan extends Controller<MOVE>
 		//Stand next to the nearest power pill and wait for a ghost to come by.
 		HFSM campPowerPill = new HFSM("campPowerPill", gather);
 		campPowerPill.setAction(new GoBackAndForth());
-		HTransition pillToCamp = new HTransition(chasePill, campPowerPill, new CampCondition(10.0, 5.0, 1.0));
+		HTransition pillToCamp = new HTransition(chasePill, campPowerPill, new CampCondition(20.0, 20.0, 10.0));
 		HTransition campGhostClose = new HTransition(campPowerPill, chasePill, new GhostNearby(20.0));
 		HTransition campTimeUp = new HTransition(campPowerPill, chasePill, new Timer(30));
 		
 		//Chase down any convenient edible ghosts as you find them.
 		HFSM rampage = new HFSM("rampage", active);
 		rampage.setAction(new GoToNearestEdibleGhost());
-		HTransition startRampage = new HTransition(gather, rampage, new EdibleGhostInRange(50,20));
-		HTransition endRampageEarly = new HTransition(rampage, gather, new NotCondition(new EdibleGhostInRange(60,20)));
+		HTransition startRampage = new HTransition(gather, rampage, new EdibleGhostInRange(60,15));
+		HTransition endRampageEarly = new HTransition(rampage, gather, new NotCondition(new EdibleGhostInRange(80,15)));
 		
 		//Collection of all of Pac-Man's moves when dealing with ghosts
 		HFSM reactive = new HFSM("reactive", root);
@@ -74,11 +74,8 @@ public class MyPacMan extends Controller<MOVE>
 		avoid.setAction(new EvadeGhosts());
 		HFSM chasePowerPill = new HFSM("chasePowerPill", reactive);
 		chasePowerPill.setAction(new GoToNearestPowerPill());		
-		HTransition activeToReactive = new HTransition(active, reactive, new AndCondition(
-																			new GhostNearby(25.0,10), 
-																			new NotCondition(new IsLooping())
-																		 		), null, true);
-		HTransition reactiveToActive = new HTransition(reactive, active, new NotCondition(new GhostNearby(40.0,10)));
+		HTransition activeToReactive = new HTransition(active, avoid, new GhostNearby(15.0, 10), null, true);
+		HTransition reactiveToActive = new HTransition(reactive, active, new NotCondition(new GhostNearby(30.0,10)));
 
 		HTransition avoidToPowerPill = new HTransition(avoid, chasePowerPill, new PowerPillNearby(30.0));
 		HTransition resetPowerPill = new HTransition(chasePowerPill, avoid, new NotCondition(new PowerPillNearby(50.0)));
