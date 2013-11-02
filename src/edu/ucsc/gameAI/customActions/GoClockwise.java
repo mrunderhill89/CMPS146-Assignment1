@@ -1,22 +1,22 @@
-package edu.ucsc.gameAI.advancedActions;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+package edu.ucsc.gameAI.customActions;
 
 import pacman.game.Game;
 import pacman.game.Constants.MOVE;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 
-public class GoCounterClockwise implements IAction, IBinaryNode{
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public class GoClockwise implements IAction, IBinaryNode {
 	public static final Map<MOVE, MOVE> DIRECTIONS;
 	static {
 	    Map<MOVE, MOVE> map = new HashMap<MOVE, MOVE>();
-	    map.put(MOVE.UP, MOVE.LEFT);
-	    map.put(MOVE.LEFT, MOVE.DOWN);
-	    map.put(MOVE.DOWN, MOVE.RIGHT);
-	    map.put(MOVE.RIGHT, MOVE.UP);
+	    map.put(MOVE.UP, MOVE.RIGHT);
+	    map.put(MOVE.RIGHT, MOVE.DOWN);
+	    map.put(MOVE.DOWN, MOVE.LEFT);
+	    map.put(MOVE.LEFT, MOVE.UP);
 	    DIRECTIONS = Collections.unmodifiableMap(map);
 	}
 	protected MOVE move = MOVE.UP;

@@ -29,6 +29,12 @@ public class HFSM implements IHFSM {
 		p.addState(this);
 	}
 
+	
+	@Override
+	public String getName(){
+		return name;
+	}
+
 	@Override
 	public ArrayList<IAction> updateDown(IHState state, int level, Game game){
 		ArrayList<IAction> actions = new ArrayList<IAction>();
@@ -105,7 +111,6 @@ public class HFSM implements IHFSM {
 					//Note: this is not the same order as in the book.
 					if (result.getLevel() > 0){
 						//Transition destined for higher level.
-						System.out.println("Update: Higher level transition");
 						result.addAction(current.getExitAction());
 						//Reset the state if the transition calls for it.
 						if (!result.getTransition().isRememberState())
@@ -116,7 +121,6 @@ public class HFSM implements IHFSM {
 						IHState target = result.getTransition().getTargetState();
 						if (result.getLevel() == 0){
 							//Transition is on the same level.
-							System.out.println("Update: Same level transition");
 							result.addAction(current.getExitAction());
 							result.addAction(result.getTransition().getAction());
 							result.addAction(target.getEntryAction());
@@ -125,7 +129,6 @@ public class HFSM implements IHFSM {
 							result.addAction(target.getAction());
 						} else {
 							//Transition is on a lower level.
-							System.out.println("Update: Lower level transition");
 							IHFSM targetMachine = target.getParent();
 							result.addAction(result.getTransition().getAction());
 							result.addActions(targetMachine.updateDown(target, -result.getLevel(), game));

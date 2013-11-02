@@ -1,4 +1,4 @@
-package edu.ucsc.gameAI.advancedActions;
+package edu.ucsc.gameAI.customActions;
 
 import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
@@ -23,8 +23,18 @@ public class GoToNearestPill implements IAction {
 
 	@Override
 	public void doAction(Game game) {
-		int numPills = game.getNumberOfActivePills();
-		if (numPills > 0){
+		int pacman = game.getPacmanCurrentNodeIndex();
+		int closest = getClosestPill(game);
+		if (closest >= 0)
+			move = game.getNextMoveTowardsTarget(pacman, closest, DM.PATH);
+	}
+	@Override
+	public MOVE getMove(Game game) {
+		return move;
+	}
+	
+	public static int getClosestPill(Game game){
+		if (game.getNumberOfActivePills() > 0){
 			int pacman = game.getPacmanCurrentNodeIndex();
 			int[] indices = game.getActivePillsIndices();
 			int closest = 0;
@@ -37,12 +47,8 @@ public class GoToNearestPill implements IAction {
 					cdist = dist;
 				}
 			}
-			move = game.getNextMoveTowardsTarget(pacman, closest, DM.PATH);
+			return closest;
 		}
+		return -1;
 	}
-	@Override
-	public MOVE getMove(Game game) {
-		return move;
-	}
-
 }

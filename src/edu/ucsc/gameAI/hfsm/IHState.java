@@ -39,5 +39,7 @@ public interface IHState extends IHFSMBase {
 	public void setParent(IHFSM parent);
 
 	Collection<IAction> updateDown(IHState state, int level, Game game);
+
+	public String getName();
 	
 }
